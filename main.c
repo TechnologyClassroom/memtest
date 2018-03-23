@@ -25,7 +25,7 @@ const struct tseq tseq[] = {
 	{1,  7,  80, 0, "[Block move, 80 moves]                "},
 	{1,  2,   2, 0, "[Moving inversions, 32 bit pattern]   "},
 	{1,  9,  30, 0, "[Random number sequence]              "},
-  {1, 11,   6, 0, "[Modulo 20, Random pattern]           "},
+	{1, 11,   6, 0, "[Modulo 20, Random pattern]           "},
 	{1,  8,   1, 0, "[Bit fade test, 90 min, 2 patterns]   "},
 	{0,  0,   0, 0, NULL}
 };
@@ -234,7 +234,7 @@ void do_test(void)
   * BIOS USB support clobbers location 0x410 and 0x4e0
   */
 	if ((ulong)v->map[0].start < 0x500) {
-    v->map[0].start = (ulong*)0x500;
+		v->map[0].start = (ulong*)0x500;
 	}
 #endif
 
@@ -702,4 +702,3 @@ static int compute_segments(int win)
 	}
 	return (segs);
 }
-
