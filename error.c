@@ -8,7 +8,7 @@
  * By Samuel DEMEULEMEESTER, sdemeule@memtest.org
  * http://www.canardpc.com - http://www.memtest.org
  */
- 
+
 #include "test.h"
 #include "config.h"
 #include <sys/io.h>
@@ -28,7 +28,7 @@ static int syn, chan, len=1;
 /*
  * Print an individual error
  */
-void common_err( ulong *adr, ulong good, ulong bad, ulong xor, int type) 
+void common_err( ulong *adr, ulong good, ulong bad, ulong xor, int type)
 {
 	int i, n, x, j, flag=0;
 	ulong page, offset;
@@ -62,7 +62,7 @@ void common_err( ulong *adr, ulong good, ulong bad, ulong xor, int type)
 			page = page_of(adr);
 			offset = (ulong)adr & 0xFFF;
 		}
-			
+
 		/* Calc upper and lower error addresses */
 		if (v->erri.low_addr.page > page) {
 			v->erri.low_addr.page = page;
@@ -186,7 +186,7 @@ void common_err( ulong *adr, ulong good, ulong bad, ulong xor, int type)
 			}
 			x += 10;
 		  }
-			
+
 		  for (i=0; tseq[i].msg != NULL; i++) {
 			dprint(LINE_HEADER+1+i, 66, i, 2, 0);
 			dprint(LINE_HEADER+1+i, 68, tseq[i].errors, 8, 0);
@@ -214,7 +214,7 @@ void common_err( ulong *adr, ulong good, ulong bad, ulong xor, int type)
 		/* Check for keyboard input */
 		check_input();
 		scroll();
-	
+
 		if ( type == 2 || type == 3) {
 			page = (ulong)adr;
 			offset = good;
@@ -233,10 +233,10 @@ void common_err( ulong *adr, ulong good, ulong bad, ulong xor, int type)
 
 		if (type == 3) {
 			/* ECC error */
-			cprint(v->msg_line, 36, 
+			cprint(v->msg_line, 36,
 			  bad?"corrected           ": "uncorrected         ");
 			hprint2(v->msg_line, 60, syn, 4);
-			cprint(v->msg_line, 68, "ECC"); 
+			cprint(v->msg_line, 68, "ECC");
 			dprint(v->msg_line, 74, chan, 2, 0);
 		} else if (type == 2) {
 			cprint(v->msg_line, 36, "Parity error detected                ");
@@ -266,7 +266,7 @@ void common_err( ulong *adr, ulong good, ulong bad, ulong xor, int type)
 		}
 		/* Process the address in the pattern administration */
 		patnchg=insertaddress ((ulong) adr);
-		if (patnchg) { 
+		if (patnchg) {
 			printpatn();
 		}
 		break;
@@ -327,14 +327,14 @@ static void update_err_counts(void)
 		beep(600);
 		beep(1000);
 	}
-	
+
 	if (v->pass && v->ecount == 0) {
 		cprint(LINE_MSG, COL_MSG,
 			"                                            ");
 	}
 	++(v->ecount);
 	tseq[v->test].errors++;
-		
+
 }
 
 static void print_err_counts(void)
@@ -348,7 +348,7 @@ static void print_err_counts(void)
 	dprint(LINE_INFO, COL_ECC_ERR, v->ecc_ecount, 6, 0);
 
 	/* Paint the error messages on the screen red to provide a vivid */
-	/* indicator that an error has occured */ 
+	/* indicator that an error has occured */
 	if ((v->printmode == PRINTMODE_ADDRESSES ||
 			v->printmode == PRINTMODE_PATTERNS) &&
 			v->msg_line < 24) {
@@ -363,7 +363,7 @@ static void print_err_counts(void)
 /*
  * Print an ecc error
  */
-void print_ecc_err(unsigned long page, unsigned long offset, 
+void print_ecc_err(unsigned long page, unsigned long offset,
 	int corrected, unsigned short syndrome, int channel)
 {
 	++(v->ecc_ecount);
@@ -376,7 +376,7 @@ void print_ecc_err(unsigned long page, unsigned long offset,
 /*
  * Print a parity error message
  */
-void parity_err( unsigned long edi, unsigned long esi) 
+void parity_err( unsigned long edi, unsigned long esi)
 {
 	unsigned long addr;
 
@@ -423,7 +423,7 @@ void printpatn (void)
                x+=22;
        }
 }
-	
+
 /*
  * Show progress by displaying elapsed time and update bar graphs
  */
@@ -436,7 +436,7 @@ void do_tick(void)
 	if (v->ecount) {
 		print_err_counts();
 	}
-	
+
 	nticks++;
 	v->total_ticks++;
 
@@ -448,7 +448,7 @@ void do_tick(void)
 	} else {
 		pct = 0;
 	}
-	
+
 	dprint(1, COL_MID+4, pct, 3, 0);
 	i = (BAR_SIZE * pct) / 100;
 	while (i > v->tptr) {
@@ -458,7 +458,7 @@ void do_tick(void)
 		cprint(1, COL_MID+9+v->tptr, "#");
 		v->tptr++;
 	}
-	
+
 	if (v->pass_ticks) {
 		pct = 100*v->total_ticks/v->pass_ticks;
 		if (pct > 100) { pct = 100;	}
@@ -501,7 +501,7 @@ void do_tick(void)
 				}
 			}
 			pct += n*2;
-			
+
 		}
 
 		/* Only some bits in error */
@@ -525,7 +525,7 @@ void do_tick(void)
 */
 		dprint(LINE_HEADER+0, 25, pct, 3, 1);
 	}
-		
+
 
 	/* We can't do the elapsed time unless the rdtsc instruction
 	 * is supported

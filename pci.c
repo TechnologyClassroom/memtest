@@ -41,7 +41,7 @@ int pci_conf_read(unsigned bus, unsigned dev, unsigned fn, unsigned reg, unsigne
 		if(reg < 256){
 			outl(PCI_CONF1_ADDRESS(bus, dev, fn, reg), 0xCF8);
 		}else{
-			outl(PCI_CONF3_ADDRESS(bus, dev, fn, reg), 0xCF8);		
+			outl(PCI_CONF3_ADDRESS(bus, dev, fn, reg), 0xCF8);
 		}
 		switch(len) {
 		case 1:  *value = inb(0xCFC + (reg & 3)); result = 0; break;
@@ -119,7 +119,7 @@ static int pci_check_direct(void)
 {
 	unsigned char tmpCFB;
 	unsigned int  tmpCF8;
-	
+
 	if (cpu_id.vend_id[0] == 'A' && cpu_id.type == 15) {
 			pci_conf_type = PCI_CONF_TYPE_1;
 			return 0;
@@ -136,7 +136,7 @@ static int pci_check_direct(void)
 				return 0;
 			}
 			outl(tmpCF8, 0xCF8);
-		
+
 			/* Check if configuration type 2 works. */
 			pci_conf_type = PCI_CONF_TYPE_2;
 			outb(0x00, 0xCFB);
@@ -152,7 +152,7 @@ static int pci_check_direct(void)
 	/* Nothing worked return an error */
 	pci_conf_type = PCI_CONF_TYPE_NONE;
 	return -1;
-	
+
 	}
 }
 

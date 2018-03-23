@@ -51,7 +51,7 @@ typedef struct {
    uint8_t cpu_flag;
 #define CPU_ENABLED             1       /* Processor is available */
 #define CPU_BOOTPROCESSOR       2       /* Processor is the BP */
-   uint32_t cpu_signature;           
+   uint32_t cpu_signature;
 #define CPU_STEPPING_MASK 0x0F
 #define CPU_MODEL_MASK  0xF0
 #define CPU_FAMILY_MASK 0xF00
@@ -112,7 +112,7 @@ typedef struct {
    uint16_t irqflag;
    uint8_t  srcbusid;
    uint8_t  srcbusirq;
-   uint8_t  destapic;     
+   uint8_t  destapic;
 #define MP_APIC_ALL     0xFF
    uint8_t  destapiclint;
 } mp_local_interrupt_entry_t;

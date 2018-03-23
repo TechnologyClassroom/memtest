@@ -7,7 +7,7 @@
  * By Samuel DEMEULEMEESTER, memtest@memtest.org
  * http://www.canardplus.com - http://www.memtest.org
 */
- 
+
 #include "io.h"
 #include "serial.h"
 #include "test.h"
@@ -104,7 +104,7 @@ void memcpy (void *dst, void *src, int len)
 	}
 	for (i = 0 ; i < len; i++) {
 		*d++ = *s++;
-	} 
+	}
 }
 int strncmp(const char *s1, const char *s2, ulong n) {
 	signed char res = 0;
@@ -443,7 +443,7 @@ int getnum(ulong val)
 {
 	int len = 0;
 	int i = 1;
-	
+
 	while(i <= val)
 	{
 		len++;
@@ -451,7 +451,7 @@ int getnum(ulong val)
 	}
 
 	return len;
-		
+
 }
 
 /*

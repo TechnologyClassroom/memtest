@@ -1,9 +1,16 @@
+Memtest86+ V4.21 changelog
+--------------------------
+
+- Paints the bottom of the screen green after 2 successful passes. (scottjg)
+- Fixed bug in [Error Report Mode] menu (andrcmdr)
+- The name of SK Hynix Semiconductor is updated (hjPARK1121)
+
 Memtest86+ V4.20 changelog
 --------------------------
 
-	- Added failsafe mode (F1 at startup)
-	- Added support for Intel "Sandy Bridge" CPU
-	- Added support for AMD "fusion" CPU
-	- Added Coreboot "table forward" support
-	- Corrected some memory brand not detected
-	- Various bug fixes
+- Added failsafe mode (F1 at startup)
+- Added support for Intel "Sandy Bridge" CPU
+- Added support for AMD "fusion" CPU
+- Added Coreboot "table forward" support
+- Corrected some memory brand not detected
+- Various bug fixes

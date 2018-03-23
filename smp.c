@@ -7,7 +7,7 @@
  *    table and do not handle default configurations. We also expect
  *    an on-chip local apic and do not support an external 82489DX
  *    apic controller.
- * 
+ *
  */
 
 #include "stddef.h"
@@ -81,7 +81,7 @@ read_mp_config_table(uintptr_t addr)
 	    cpu_num_to_apic_id[number_of_cpus] = pe->apic_id | 1;
 	    number_of_cpus++;
 	 }
-	    
+
 	 // we cannot handle non-local 82489DX apics
 	 if ((pe->apic_ver & 0xf0) != 0x10) {
 	    return 0;
@@ -105,7 +105,7 @@ read_mp_config_table(uintptr_t addr)
       case MP_LINTSRC:
 	 tab_entry_ptr += sizeof(mp_local_interrupt_entry_t);
 	 break;
-      default: 
+      default:
 	 return FALSE;
       }
    }
@@ -125,7 +125,7 @@ scan_for_floating_ptr_struct(uintptr_t addr, uint32_t length)
       if (fp->signature == FPSignature) {
 	 if (fp->length == 1 && checksum((uint8_t*)fp, 16) == 0) {
 	    return fp;
-	 } 
+	 }
       }
       fp++;
    }
@@ -142,20 +142,20 @@ void PUT_MEM32(uintptr_t addr, uint32_t val)
    *((volatile uint32_t *)addr) = val;
 }
 
-static void inline 
+static void inline
 APIC_WRITE(unsigned reg, uint32_t val)
 {
    APIC[reg][0] = val;
 }
 
-static inline uint32_t 
+static inline uint32_t
 APIC_READ(unsigned reg)
 {
    return APIC[reg][0];
 }
 
 
-static void 
+static void
 SEND_IPI(unsigned apic_id, unsigned trigger, unsigned level, unsigned mode,
 	    uint8_t vector)
 {
@@ -165,7 +165,7 @@ SEND_IPI(unsigned apic_id, unsigned trigger, unsigned level, unsigned mode,
    APIC_WRITE(APICR_ICRHI, v | (apic_id << 24));
 
    v = APIC_READ(APICR_ICRLO) & ~0xcdfff;
-   v |= (APIC_DEST_DEST << APIC_ICRLO_DEST_OFFSET) 
+   v |= (APIC_DEST_DEST << APIC_ICRLO_DEST_OFFSET)
       | (trigger << APIC_ICRLO_TRIGGER_OFFSET)
       | (level << APIC_ICRLO_LEVEL_OFFSET)
       | (mode << APIC_ICRLO_DELMODE_OFFSET)
@@ -175,7 +175,7 @@ SEND_IPI(unsigned apic_id, unsigned trigger, unsigned level, unsigned mode,
 
 
 // Silly way of busywaiting, but we don't have a timer
-void delay(unsigned us) 
+void delay(unsigned us)
 {
    unsigned freq = 1000; // in MHz, assume 1GHz CPU speed
    uint64_t cycles = us * freq;
@@ -195,7 +195,7 @@ memset (void *dst,
         int   len)
 {
    int i;
-   for (i = 0 ; i < len ; i++ ) { 
+   for (i = 0 ; i < len ; i++ ) {
       *((char *) dst + i) = value;
    }
 }
@@ -235,7 +235,7 @@ void kick_cpu(unsigned cpu_num)
       if (send_pending) {
 	 //cprint(LINE_STATUS+1, 0, "SMP: STARTUP IPI was never sent");
       }
-      
+
       delay(100000 / DELAY_FACTOR);
 
       err = APIC_READ(APICR_ESR) & 0xef;
@@ -255,7 +255,7 @@ void kick_cpu(unsigned cpu_num)
 void boot_ap(unsigned cpu_num)
 {
    unsigned num_sipi, apic_id;
-   extern uint8_t gdt; 
+   extern uint8_t gdt;
    extern uint8_t _ap_trampoline_start;
    extern uint8_t _ap_trampoline_protmode;
    unsigned len = &_ap_trampoline_protmode - &_ap_trampoline_start;
@@ -306,7 +306,7 @@ void boot_ap(unsigned cpu_num)
       if (send_pending) {
 	 //cprint(LINE_STATUS+1, 0, "SMP: STARTUP IPI was never sent");
       }
-      
+
       delay(100000 / DELAY_FACTOR);
 
       err = APIC_READ(APICR_ESR) & 0xef;
@@ -324,7 +324,7 @@ smp_init_bsp()
    /* gets the details about the cpu, the type, the brand
     * whether it is a multi-core package etc.
     */
-   cpuid_init(); 
+   cpuid_init();
 
    memset(&AP, 0, sizeof AP);
 
@@ -378,8 +378,8 @@ my_apic_id()
    return (APIC[APICR_ID][0]) >> 24;
 }
 
-void 
-smp_ap_booted(unsigned cpu_num) 
+void
+smp_ap_booted(unsigned cpu_num)
 {
    AP[cpu_num].started = TRUE;
 }

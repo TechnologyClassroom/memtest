@@ -68,7 +68,7 @@ install: all
 
 install-precomp:
 	dd <precomp.bin >$(FDISK) bs=8192
-	
+
 dos: all
 	cat mt86+_loader memtest.bin > memtest.exe
 

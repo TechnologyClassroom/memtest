@@ -1,14 +1,14 @@
-/* --*- C -*-- 
- * 
+/* --*- C -*--
+ *
  * By Jani Averbach, Jaa@iki.fi, 2001
- * 
+ *
  * Released under version 2 of the Gnu Public License.
  *
- * $Author: jaa $ 
- * $Revision: 1.6 $ 
- * $Date: 2001/03/29 09:00:30 $ 
+ * $Author: jaa $
+ * $Revision: 1.6 $
+ * $Date: 2001/03/29 09:00:30 $
  * $Source: /home/raid/cvs/memtest86/screen_buffer.h,v $  (for CVS)
- * 
+ *
  */
 #ifndef SCREEN_BUFFER_H_1D10F83B_INCLUDED
 #define SCREEN_BUFFER_H_1D10F83B_INCLUDED

@@ -1,7 +1,7 @@
 /*
  * cpuid.h --
  *
- *      contains the data structures required for CPUID 
+ *      contains the data structures required for CPUID
  *      implementation.
  *
  */
@@ -37,14 +37,14 @@
 
 #define CPUID_FAMILY_IS_OPTERON(_eax) \
            (CPUID_FAMILY(_eax) == CPUID_FAMILY_EXTENDED && \
-            CPUID_EXTENDED_FAMILY(_eax) == CPUID_EXTENDED_FAMILY_OPTERON)                                                                                              
+            CPUID_EXTENDED_FAMILY(_eax) == CPUID_EXTENDED_FAMILY_OPTERON)
 #define CPUID_FEATURE_COMMON_ID1EDX_HT         0x10000000 /* 28 */
 
 
 typedef struct {
    uint32_t eax;
-   uint32_t ebx; 
-   uint32_t ecx; 
+   uint32_t ebx;
+   uint32_t ecx;
    uint32_t edx;
 } cpuid_t;
 
@@ -93,7 +93,7 @@ typedef union {
       uint32_t    extendedModel:4;
       uint32_t    extendedFamily:8;
       uint32_t    reserved3128:4;  /* Bit 31 */
-   } bits;      
+   } bits;
 } cpuid_version_t;
 
 /* Typedef for storing CPUID Processor Information */
@@ -104,7 +104,7 @@ typedef union {
       uint32_t    cflushLineSize:8;
       uint32_t    logicalProcessorCount:8;
       uint32_t    apicID:8;        /* Bit 31 */
-   } bits;      
+   } bits;
 } cpuid_proc_info_t;
 
 /* Typedef for storing CPUID Feature flags */

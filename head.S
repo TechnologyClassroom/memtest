@@ -398,28 +398,28 @@ have_cpuid:
 	movl	%eax, X86_DCACHE0_EAX(%esi)
 	movl	%ebx, X86_DCACHE0_EBX(%esi)
 	movl	%ecx, X86_DCACHE0_ECX(%esi)
-	movl	%edx, X86_DCACHE0_EDX(%esi)	
+	movl	%edx, X86_DCACHE0_EDX(%esi)
 	movl $4, %eax
 	movl $1, %ecx
 	cpuid
 	movl	%eax, X86_DCACHE1_EAX(%esi)
 	movl	%ebx, X86_DCACHE1_EBX(%esi)
 	movl	%ecx, X86_DCACHE1_ECX(%esi)
-	movl	%edx, X86_DCACHE1_EDX(%esi)	
+	movl	%edx, X86_DCACHE1_EDX(%esi)
 	movl $4, %eax
 	movl $2, %ecx
 	cpuid
 	movl	%eax, X86_DCACHE2_EAX(%esi)
 	movl	%ebx, X86_DCACHE2_EBX(%esi)
 	movl	%ecx, X86_DCACHE2_ECX(%esi)
-	movl	%edx, X86_DCACHE2_EDX(%esi)	
+	movl	%edx, X86_DCACHE2_EDX(%esi)
 	movl $4, %eax
 	movl $3, %ecx
 	cpuid
 	movl	%eax, X86_DCACHE3_EAX(%esi)
 	movl	%ebx, X86_DCACHE3_EBX(%esi)
 	movl	%ecx, X86_DCACHE3_ECX(%esi)
-	movl	%edx, X86_DCACHE3_EDX(%esi)	
+	movl	%edx, X86_DCACHE3_EDX(%esi)
 	jmp	id_done
 
 not_intel:

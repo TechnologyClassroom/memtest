@@ -56,7 +56,7 @@ cpuid_get_version(void)
 }
 
 
-cpuid_feature_flags_t 
+cpuid_feature_flags_t
 cpuid_get_feature_flags(void)
 {
    cpuid_feature_flags_t f;
@@ -124,7 +124,7 @@ cpuid_is_vendor_intel(void)
  *
  * cpuid_is_family_p4 --
  *
- *    Returns TRUE if the processor we're running on is an Intel processor 
+ *    Returns TRUE if the processor we're running on is an Intel processor
  *    of the P4 family.
  *
  * Results:
@@ -138,7 +138,7 @@ cpuid_is_family_p4(void)
 {
    cpuid_version_t v = cpuid_get_version();
 
-   return cpuid_is_vendor_intel() && v.bits.family == CPUID_FAMILY_EXTENDED && 
+   return cpuid_is_vendor_intel() && v.bits.family == CPUID_FAMILY_EXTENDED &&
       v.bits.extendedFamily == CPUID_EXTENDED_FAMILY_PENTIUM4;
 }
 
@@ -198,11 +198,11 @@ cpuid_init(void)
 {
    //bool htt = FALSE;
    cpuid_t id1;
-   
-   /* First get the basic cpuid information on what the 
+
+   /* First get the basic cpuid information on what the
     * type of the processor is , i.e intel or amd etc
     * and how much of extra cpuid information is available
-    * with the processor 
+    * with the processor
     */
    cpuid_data0.eax = 0;
    GET_CPUID(cpuid_data0.eax, cpuid_data0.ebx,

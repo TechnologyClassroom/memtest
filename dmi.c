@@ -174,7 +174,7 @@ int open_dmi(void){
 		struct tstruct_header *header = (struct tstruct_header *)dmi;
 		if (header->type == 17)
 			mem_devs[mem_devs_count++]=(struct mem_dev *)dmi;
-		
+
 		// Need fix (SMBIOS/DDR3)
 		if (header->type == 20 || header->type == 1)
 			md_maps[md_maps_count++]=(struct md_map *)dmi;
@@ -241,9 +241,9 @@ void print_dmi_info(void){
 				itoa(string, size_in_mb);
 				cprint(yof, POP2_X+4+18, string);
 			}
-			
-			//this is the only field that needs to be SMBIOS 2.3+ 
-			if ( mem_devs[i]->speed && 
+
+			//this is the only field that needs to be SMBIOS 2.3+
+			if ( mem_devs[i]->speed &&
 			     mem_devs[i]->header.length > 21){
 				itoa(string, mem_devs[i]->speed);
 				cprint(yof, POP2_X+4+27, string);
@@ -279,14 +279,14 @@ void print_dmi_info(void){
 		while (get_key() == 0);
 	}
 }
-	
+
 //return 1 if the list of bad memory devices changes, 0 otherwise, -1 if no mapped
 int add_dmi_err(ulong adr){
 	int i,j,found=-1;
-	
+
 	if(!dmi_initialized)
 		init_dmi();
-	
+
 	for(i=0; i < md_maps_count; i++){
 		if ( adr < (md_maps[i]->start<<10) ||
 		     adr > (md_maps[i]->end<<10) )
@@ -303,16 +303,16 @@ int add_dmi_err(ulong adr){
 			}
 		}
 	}
-	
+
 	return found;
 }
-	
+
 void print_dmi_err(void){
 	int i,count,of;
 	char *string;
-	
+
 	scroll();
-	
+
 	cprint(v->msg_line, 0,"Bad Memory Devices: ");
 	of=20;
 	for ( i=count=0; i < MAX_DMI_MEMDEVS; i++){

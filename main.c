@@ -141,7 +141,7 @@ static void run_at(unsigned long addr)
 /* command line passing using the 'old' boot protocol */
 #define MK_PTR(seg,off) ((void*)(((unsigned long)(seg) << 4) + (off)))
 #define OLD_CL_MAGIC_ADDR ((unsigned short*) MK_PTR(INITSEG,0x20))
-#define OLD_CL_MAGIC 0xA33F 
+#define OLD_CL_MAGIC 0xA33F
 #define OLD_CL_OFFSET_ADDR ((unsigned short*) MK_PTR(INITSEG,0x22))
 
 static void parse_command_line(void)
@@ -198,12 +198,12 @@ void do_test(void)
 		if ((ulong)&_start != LOW_TEST_ADR) {
 			restart();
 		}
-		
+
 		init();
-		
+
 		find_ticks_for_pass();
-		
-		windows[0].start = 
+
+		windows[0].start =
 			( LOW_TEST_ADR + (_end - _start) + 4095) >> 12;
 
 		/* Set relocation address at 16Mb if there is enough memory */
@@ -228,7 +228,7 @@ void do_test(void)
 	if ((ulong)&_start > LOW_TEST_ADR) {
 		/* Relocated so we need to test all selected lower memory */
 		v->map[0].start = mapping(v->plim_lower);
-		
+
 #ifdef USB_WAR
  /* We must not touch test below 0x500 memory beacuase
   * BIOS USB support clobbers location 0x410 and 0x4e0
@@ -285,13 +285,13 @@ void do_test(void)
 	if (v->testsel >= 0) {
 		v->test = v->testsel;
 	}
-	
+
 	if (v->pass == 0) {
 		c_iter = tseq[v->test].iter/2;
 	} else {
 		c_iter = tseq[v->test].iter;
 	}
-	
+
 	dprint(LINE_TST, COL_MID+6, v->test, 2, 1);
 	cprint(LINE_TST, COL_MID+9, tseq[v->test].msg);
 	set_cache(tseq[v->test].cache);
@@ -315,14 +315,14 @@ void do_test(void)
 		p2 = ~p1;
 		movinv1(c_iter,p1,p2);
 		BAILOUT;
-	
+
 		/* Switch patterns */
 		p2 = p1;
 		p1 = ~p2;
 		movinv1(c_iter,p1,p2);
 		BAILOUT;
 		break;
-		
+
 	case 1: /* Moving inversions, 8 bit walking ones and zeros (test #3) */
 		p0 = 0x80;
 		for (i=0; i<8; i++, p0=p0>>1) {
@@ -330,7 +330,7 @@ void do_test(void)
 			p2 = ~p1;
 			movinv1(c_iter,p1,p2);
 			BAILOUT;
-	
+
 			/* Switch patterns */
 			p2 = p1;
 			p1 = ~p2;
@@ -452,15 +452,15 @@ void do_test(void)
 		 *   The lower limit is less than START_ADR
 		 * - There is more than 1 meg of memory
 		 */
-		if (windows[window].start < 
+		if (windows[window].start <
 			((ulong)&_start + (_end - _start)) >> 12) {
-			if (v->pmap[v->msegs-1].end > 
+			if (v->pmap[v->msegs-1].end >
 				(((high_test_adr + (_end - _start)) >> 12)+1)) {
 				/* We need the high copy and we have enough
 				 * memory so use it.
 				 */
 				run_at(high_test_adr);
-			} else { 
+			} else {
 				/* We can't use this window so skip it */
 				goto skip_window;
 			}
@@ -506,7 +506,7 @@ void do_test(void)
 					cpaint(LINE_MSG+5, 0, 80, WHITE, GREEN);
 			}
 		}
-		
+
 		/* We always start a pass with the low copy */
 		run_at(LOW_TEST_ADR);
 	}
@@ -681,11 +681,11 @@ static int compute_segments(int win)
 
 		cprint(LINE_SCROLL+(2*i+1), 44, "i=");
 		hprint(LINE_SCROLL+(2*i+1), 46, i);
-		
-		cprint(LINE_SCROLL+(2*i+2), 0, 
+
+		cprint(LINE_SCROLL+(2*i+2), 0,
 			"                                        "
 			"                                        ");
-		cprint(LINE_SCROLL+(2*i+3), 0, 
+		cprint(LINE_SCROLL+(2*i+3), 0,
 			"                                        "
 			"                                        ");
 #endif

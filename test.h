@@ -92,7 +92,7 @@ typedef unsigned long ulong;
 //#define NULL	0
 
 #define BLACK       0
-#define BLUE        0
+#define BLUE        1
 #define GREEN       2
 #define CYAN        3
 #define RED         4
@@ -100,7 +100,7 @@ typedef unsigned long ulong;
 #define BROWN       6
 #define LT_GRAY     7
 #define DK_GRAY     8
-#define LT_BLUE     0
+#define LT_BLUE     9
 #define LT_GREEN   10
 #define LT_CYAN    11
 #define LT_RED     12
@@ -296,11 +296,11 @@ struct cpu_ident {
 	long dcache1_eax;
 	long dcache1_ebx;
 	long dcache1_ecx;
-	long dcache1_edx;	
+	long dcache1_edx;
 	long dcache2_eax;
 	long dcache2_ebx;
 	long dcache2_ecx;
-	long dcache2_edx;	
+	long dcache2_edx;
 	long dcache3_eax;
 	long dcache3_ebx;
 	long dcache3_ecx;

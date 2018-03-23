@@ -38,7 +38,7 @@ void get_config()
 		cprint(POP_Y+5,  POP_X+6, "(3) Memory Sizing");
 		cprint(POP_Y+6,  POP_X+6, "(4) Error Report Mode");
 		cprint(POP_Y+7,  POP_X+6, "(5) Show DMI Memory Info");
-		cprint(POP_Y+8,  POP_X+6, "(6) ECC Mode"); 
+		cprint(POP_Y+8,  POP_X+6, "(6) ECC Mode");
 		cprint(POP_Y+9,  POP_X+6, "(7) Restart");
 		cprint(POP_Y+10, POP_X+6, "(8) Refresh Screen");
 		cprint(POP_Y+11, POP_X+6, "(9) Display SPD Data");
@@ -127,7 +127,7 @@ void get_config()
 					cprint(LINE_INFO, COL_TST, "#");
 					dprint(LINE_INFO, COL_TST+1, 10, 3, 1);
 					break;
-*/					
+*/
 				case 11:
 				case 57:
 					sflag++;
@@ -298,7 +298,7 @@ void get_config()
 					/* Set Beep On Error mode */
 					beepmode = !beepmode;
 					sflag++;
-					break;					
+					break;
 				case 11:
 				case 57:
 					/* 0/CR - Continue */
@@ -382,9 +382,9 @@ void popup()
 {
 	int i, j;
 	char *pp;
-	
-	for (i=POP_Y; i<POP_Y + POP_H; i++) { 
-		for (j=POP_X; j<POP_X + POP_W; j++) { 
+
+	for (i=POP_Y; i<POP_Y + POP_H; i++) {
+		for (j=POP_X; j<POP_X + POP_W; j++) {
 			pp = (char *)(SCREEN_ADR + (i * 160) + (j * 2));
 			save[0][i-POP_Y][j-POP_X] = *pp;  /* Save screen */
 			set_scrn_buf(i, j, ' ');
@@ -401,9 +401,9 @@ void popdown()
 {
 	int i, j;
 	char *pp;
-	
-	for (i=POP_Y; i<POP_Y + POP_H; i++) { 
-		for (j=POP_X; j<POP_X + POP_W; j++) { 
+
+	for (i=POP_Y; i<POP_Y + POP_H; i++) {
+		for (j=POP_X; j<POP_X + POP_W; j++) {
 			pp = (char *)(SCREEN_ADR + (i * 160) + (j * 2));
 			*pp = save[0][i-POP_Y][j-POP_X]; /* Restore screen */
 			set_scrn_buf(i, j, save[0][i-POP_Y][j-POP_X]);
@@ -418,9 +418,9 @@ void popclear()
 {
 	int i, j;
 	char *pp;
-	
-	for (i=POP_Y; i<POP_Y + POP_H; i++) { 
-		for (j=POP_X; j<POP_X + POP_W; j++) { 
+
+	for (i=POP_Y; i<POP_Y + POP_H; i++) {
+		for (j=POP_X; j<POP_X + POP_W; j++) {
 			pp = (char *)(SCREEN_ADR + (i * 160) + (j * 2));
 			*pp = ' ';		/* Clear popup */
 			set_scrn_buf(i, j, ' ');
@@ -436,8 +436,8 @@ void pop2up()
 	int i, j;
 	char *pp;
 
-	for (i=POP2_Y; i<POP2_Y + POP2_H; i++) { 
-		for (j=POP2_X; j<POP2_X + POP2_W; j++) { 
+	for (i=POP2_Y; i<POP2_Y + POP2_H; i++) {
+		for (j=POP2_X; j<POP2_X + POP2_W; j++) {
 			pp = (char *)(SCREEN_ADR + (i * 160) + (j * 2));
 			save2[0][i-POP2_Y][j-POP2_X] = *pp;  /* Save screen */
 			set_scrn_buf(i, j, ' ');
@@ -455,8 +455,8 @@ void pop2down()
 	int i, j;
 	char *pp;
 
-	for (i=POP2_Y; i<POP2_Y + POP2_H; i++) { 
-		for (j=POP2_X; j<POP2_X + POP2_W; j++) { 
+	for (i=POP2_Y; i<POP2_Y + POP2_H; i++) {
+		for (j=POP2_X; j<POP2_X + POP2_W; j++) {
 			pp = (char *)(SCREEN_ADR + (i * 160) + (j * 2));
 			*pp = save2[0][i-POP2_Y][j-POP2_X]; /* Restore screen */
 			set_scrn_buf(i, j, save2[0][i-POP2_Y][j-POP2_X]);
@@ -472,8 +472,8 @@ void pop2clear()
 	int i, j;
 	char *pp;
 
-	for (i=POP2_Y; i<POP2_Y + POP2_H; i++) { 
-		for (j=POP2_X; j<POP2_X + POP2_W; j++) { 
+	for (i=POP2_Y; i<POP2_Y + POP2_H; i++) {
+		for (j=POP2_X; j<POP2_X + POP2_W; j++) {
 			pp = (char *)(SCREEN_ADR + (i * 160) + (j * 2));
 			*pp = ' ';		/* Clear popup */
 			set_scrn_buf(i, j, ' ');
@@ -512,14 +512,14 @@ void adj_mem(void)
 			if (v->pmap[i].end < v->plim_lower) {
 				continue;
 			}
-			
+
 			/* Ends past upper limit? */
 			if (v->pmap[i].end > v->plim_upper) {
-				v->selected_pages += 
+				v->selected_pages +=
 					v->plim_upper - v->plim_lower;
 			} else {
 				/* Straddles lower limit */
-				v->selected_pages += 
+				v->selected_pages +=
 					(v->pmap[i].end - v->plim_lower);
 			}
 			continue;
@@ -531,7 +531,7 @@ void adj_mem(void)
 				continue;
 			}
 			/* Straddles upper limit */
-			v->selected_pages += 
+			v->selected_pages +=
 				(v->plim_upper - v->pmap[i].start);
 		}
 	}
@@ -539,11 +539,11 @@ void adj_mem(void)
 
 /*
 void performance()
-{ 
+{
 	extern int l1_cache, l2_cache;
 	ulong speed;
 	int i;
-	
+
 	popclear();
 
 	cprint(POP_Y+1, POP_X+1, "             Read   Write    Copy");
@@ -576,8 +576,8 @@ void performance()
      if ((1 + (i * 2)) > (v->plim_upper << 2)) {
              i = ((v->plim_upper <<2) - 1) / 2;
      }
-        
-        
+
+
 	cprint(POP_Y+7, POP_X+1, "Memory:");
 	speed=memspeed((ulong)mapping(0x100), i*1024, 500, MS_READ);
 	dprint(POP_Y+7, POP_X+10, speed, 6, 0);
