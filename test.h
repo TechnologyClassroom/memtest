@@ -63,7 +63,7 @@ typedef unsigned long ulong;
 #define LINE_RANGE	3
 #define LINE_CPU	1
 #define COL_MID		30
-#define LINE_PAT  4
+#define LINE_PAT	4
 #define COL_PAT		41
 #define LINE_INFO	11
 #define COL_CACHE_TOP   13
@@ -92,7 +92,7 @@ typedef unsigned long ulong;
 //#define NULL	0
 
 #define BLACK       0
-#define BLUE        1
+#define BLUE        0
 #define GREEN       2
 #define CYAN        3
 #define RED         4
@@ -100,7 +100,7 @@ typedef unsigned long ulong;
 #define BROWN       6
 #define LT_GRAY     7
 #define DK_GRAY     8
-#define LT_BLUE     9
+#define LT_BLUE     0
 #define LT_GREEN   10
 #define LT_CYAN    11
 #define LT_RED     12
@@ -201,11 +201,11 @@ unsigned long page_of(void *ptr);
 ulong memspeed(ulong src, ulong len, int iter, int type);
 ulong correct_tsc(ulong el_org);
 
-#define PRINTMODE_SUMMARY   1
-#define PRINTMODE_ADDRESSES 0
+#define PRINTMODE_SUMMARY   0
+#define PRINTMODE_ADDRESSES 1
 #define PRINTMODE_PATTERNS  2
 #define PRINTMODE_NONE      3
-#define PRINTMODE_DMI      	4
+#define PRINTMODE_DMI  	    4
 
 #define BADRAM_MAXPATNS 10
 
