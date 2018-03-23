@@ -34,7 +34,7 @@ struct dmi_eps {
 	uint8_t  SMBIOSrev;
 } __attribute__((packed));
 
-struct tstruct_header{
+struct tstruct_header {
 	uint8_t  type;
 	uint8_t  length;
 	uint16_t handle;
@@ -60,7 +60,7 @@ struct mem_dev {
 	uint8_t  partnum;
 } __attribute__((packed));
 
-struct md_map{
+struct md_map {
 	struct tstruct_header header;
 	uint32_t start;
 	uint32_t end;
@@ -71,7 +71,7 @@ struct md_map{
 	uint8_t  interl_depth;
 } __attribute__((packed));
 
-struct pma{
+struct pma {
 	struct tstruct_header header;
 	uint8_t  location;
 	uint8_t  use;
@@ -94,7 +94,7 @@ static char *memory_types[] = {
 	"Other", "Unknown", "DRAM", "EDRAM", "VRAM", "SRAM", "RAM",
 	"ROM", "FLASH", "EEPROM", "FEPROM", "EPROM", "CDRAM", "3DRAM",
 	"SDRAM", "SGRAM", "RDRAM", "DDR", "DDR2", "DDR2 FB", "RSVD",
-  "RSVD","RSVD","DDR3","FBD2"
+	"RSVD","RSVD","DDR3","FBD2"
 };
 
 
@@ -105,14 +105,14 @@ int md_maps_count=0;
 int dmi_err_cnts[MAX_DMI_MEMDEVS];
 short dmi_initialized=0;
 
-int strlen(char * string){
+int strlen(char * string) {
 	int i=0;
 	while(*string++){i++;};
 	return i;
 }
 
 
-char * get_tstruct_string(struct tstruct_header *header, int n){
+char * get_tstruct_string(struct tstruct_header *header, int n) {
 	if(n<1)
 		return 0;
 	char * a = (char *)header + header->length;
@@ -123,7 +123,7 @@ char * get_tstruct_string(struct tstruct_header *header, int n){
 		if (!n && *a)
 			return a;
 		a++;
-	}while (!(*a==0 && *(a-1)==0));
+	} while (!(*a==0 && *(a-1)==0));
 	return 0;
 }
 
@@ -141,7 +141,7 @@ int open_dmi(void){
 		if( *dmi == '_' &&
 		    *(dmi+1) == 'S' &&
 		    *(dmi+2) == 'M' &&
-		    *(dmi+3) == '_'){
+		    *(dmi+3) == '_') {
 			found =1;
 			break;
 		}
@@ -156,13 +156,13 @@ int open_dmi(void){
 	int8_t checksum=0;
 	for (; dmi < dmi_start + eps->length; dmi++)
 		checksum += *dmi;
-	if (checksum){
+	if (checksum) {
 		return -1;
 	}
 
 	//we need at least revision 2.1 of SMBIOS
 	if ( eps->majorversion < 2 &&
-	     eps->minorversion < 1){
+	     eps->minorversion < 1) {
 	    return -1;
 	}
 
@@ -170,7 +170,7 @@ int open_dmi(void){
 	table_start=(char *)eps->tableaddress;
 	dmi=table_start;
 //look at all structs
-	while(dmi < table_start + eps->tablelength){
+	while(dmi < table_start + eps->tablelength) {
 		struct tstruct_header *header = (struct tstruct_header *)dmi;
 		if (header->type == 17)
 			mem_devs[mem_devs_count++]=(struct mem_dev *)dmi;
@@ -189,7 +189,7 @@ int open_dmi(void){
 	return 0;
 }
 
-void init_dmi(void){
+void init_dmi(void) {
 	int i;
 	for(i=0; i < MAX_DMI_MEMDEVS; i++)
 		dmi_err_cnts[i]=0;
@@ -197,20 +197,20 @@ void init_dmi(void){
 	dmi_initialized=1;
 }
 
-void print_dmi_info(void){
+void print_dmi_info(void) {
 	int i,j,page;
 	char * string=0;
 
 	if(!dmi_initialized)
 		init_dmi();
 
-	if (mem_devs_count == 0){
+	if (mem_devs_count == 0) {
 		cprint(POP2_Y+1, POP2_X+2, "No valid DMI Memory Devices info found");
 		while (get_key() == 0);
 		return;
 	}
 
-	for(page=1; page <= 1 + (mem_devs_count-1)/8; page++){
+	for(page=1; page <= 1 + (mem_devs_count-1)/8; page++) {
 		pop2clear();
 		cprint(POP2_Y+1, POP2_X+2, "DMI Memory Device Info  (page ");
 		itoa(string,page);
@@ -223,18 +223,18 @@ void print_dmi_info(void){
 		cprint(POP2_Y+3, POP2_X+4, "Location         Size(MB) Speed(MHz) Type   Form");
 		cprint(POP2_Y+4, POP2_X+4, "--------------------------------------------------------------");
 
-		for(i=8*(page-1); i<mem_devs_count && i<8*page; i++){
+		for(i=8*(page-1); i<mem_devs_count && i<8*page; i++) {
 			int size_in_mb;
 			int yof;
 
 			yof=POP2_Y+5+2*(i-8*(page-1));
 			cprint(yof, POP2_X+4, get_tstruct_string(&(mem_devs[i]->header), mem_devs[i]->dev_locator));
 
-			if (mem_devs[i]->size == 0){
+			if (mem_devs[i]->size == 0) {
 				cprint(yof, POP2_X+4+18, "Empty");
-			}else if (mem_devs[i]->size == 0xFFFF){
+			} else if (mem_devs[i]->size == 0xFFFF) {
 				cprint(yof, POP2_X+4+18, "Unknown");
-			}else{
+			} else {
 				size_in_mb = 0xEFFF & mem_devs[i]->size;
 				if (mem_devs[i]->size & 0x8000)
 					size_in_mb = size_in_mb<<10;
@@ -244,10 +244,10 @@ void print_dmi_info(void){
 
 			//this is the only field that needs to be SMBIOS 2.3+
 			if ( mem_devs[i]->speed &&
-			     mem_devs[i]->header.length > 21){
+			     mem_devs[i]->header.length > 21) {
 				itoa(string, mem_devs[i]->speed);
 				cprint(yof, POP2_X+4+27, string);
-			}else{
+			} else {
 				cprint(yof, POP2_X+4+27, "Unknown");
 			}
 			cprint(yof, POP2_X+4+37, memory_types[mem_devs[i]->type]);
@@ -256,7 +256,7 @@ void print_dmi_info(void){
 			//print mappings
 			int mapped=0,of=0;
 			cprint(yof+1, POP2_X+6,"mapped to: ");
-			for(j=0; j<md_maps_count; j++){
+			for(j=0; j<md_maps_count; j++) {
 				if (mem_devs[i]->header.handle != md_maps[j]->md_handle)
 					continue;
 				if (mapped++){
@@ -281,24 +281,24 @@ void print_dmi_info(void){
 }
 
 //return 1 if the list of bad memory devices changes, 0 otherwise, -1 if no mapped
-int add_dmi_err(ulong adr){
+int add_dmi_err(ulong adr) {
 	int i,j,found=-1;
 
 	if(!dmi_initialized)
 		init_dmi();
 
-	for(i=0; i < md_maps_count; i++){
+	for(i=0; i < md_maps_count; i++) {
 		if ( adr < (md_maps[i]->start<<10) ||
 		     adr > (md_maps[i]->end<<10) )
 			continue;
 
 		//matching map found, now check find corresponding dev
-		for(j=0; j < mem_devs_count; j++){
+		for(j=0; j < mem_devs_count; j++) {
 			if (mem_devs[j]->header.handle != md_maps[i]->md_handle)
 				continue;
-			if (dmi_err_cnts[j]){
+			if (dmi_err_cnts[j]) {
 				found=0;
-			}else{
+			} else {
 				found = dmi_err_cnts[j] = 1;
 			}
 		}
@@ -307,7 +307,7 @@ int add_dmi_err(ulong adr){
 	return found;
 }
 
-void print_dmi_err(void){
+void print_dmi_err(void) {
 	int i,count,of;
 	char *string;
 
@@ -315,16 +315,16 @@ void print_dmi_err(void){
 
 	cprint(v->msg_line, 0,"Bad Memory Devices: ");
 	of=20;
-	for ( i=count=0; i < MAX_DMI_MEMDEVS; i++){
+	for ( i=count=0; i < MAX_DMI_MEMDEVS; i++) {
 		if (!dmi_err_cnts[i])
 			continue;
 		struct mem_dev *md = mem_devs[i];
-		if(count++){
+		if (count++) {
 			cprint(v->msg_line, of, ", ");
 			of+=2;
 		}
 		string=get_tstruct_string((struct tstruct_header *)md,md->dev_locator);
-		if (strlen(string) + of > 80){
+		if (strlen(string) + of > 80) {
 			scroll();
 			of=7;
 		}
