@@ -3,8 +3,8 @@ the screen green after 2 successful passes. This way, you can scrape the
 console screen in order to determine if the your memory test is done.
 
 
-Memtest86++ v4.20
-====================
+Memtest86++ v4.21
+=================
 
 Table of Contents
 =================
@@ -211,7 +211,7 @@ results.
 
 
 8) Trouble-shooting Memory Errors
-================================
+=================================
 Please be aware that not all errors reported by Memtest86+ are due to
 bad memory. The test implicitly tests the CPU, L1 and L2 caches as well as
 the motherboard.  It is impossible for the test to determine what causes
@@ -320,7 +320,7 @@ are testing algorithms that can approximate this ideal strategy.
 
 
 11) Memtest86+ Test Algorithms
-=============================
+==============================
 Memtest86+ uses two algorithms that provide a reasonable approximation
 of the ideal test strategy above.  The first of these strategies is called
 moving inversions.  The moving inversion test works as follows:
@@ -481,5 +481,3 @@ Changes in the compiler and loader have caused problems with
 Memtest86+ resulting in both build failures and errors in execution.  A
 binary image (precomp.bin) of the test is included and may be used if
 problems are encountered.
-
-
