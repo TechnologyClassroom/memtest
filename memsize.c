@@ -445,31 +445,31 @@ fstart:
 
 static int check_ram(void)
 {
-        int s;
+	int s;
 
-        p1 = *p;
+	p1 = *p;
 
-        /* write the complement */
-        *p = ~p1;
-        p2 = *p;
-        s = 0;
+	/* write the complement */
+	*p = ~p1;
+	p2 = *p;
+	s = 0;
 
-        /* Now make sure a bit changed in each byte */
-        if ((0xff & p1) != (0xff & p2)) {
-                s++;
-        }
-        if ((0xff00 & p1) != (0xff00 & p2)) {
-                s++;
-        }
-        if ((0xff0000 & p1) != (0xff0000 & p2)) {
-                s++;
-        }
-        if ((0xff000000 & p1) != (0xff000000 & p2)) {
-                s++;
-        }
-        if (s == 4) {
-                /* RAM at this address */
-                return 1;
-        }
-        return 0;
+	/* Now make sure a bit changed in each byte */
+	if ((0xff & p1) != (0xff & p2)) {
+		s++;
+	}
+	if ((0xff00 & p1) != (0xff00 & p2)) {
+		s++;
+	}
+	if ((0xff0000 & p1) != (0xff0000 & p2)) {
+		s++;
+	}
+	if ((0xff000000 & p1) != (0xff000000 & p2)) {
+		s++;
+	}
+	if (s == 4) {
+		/* RAM at this address */
+		return 1;
+	}
+	return 0;
 }
