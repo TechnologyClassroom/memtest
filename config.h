@@ -21,16 +21,19 @@
 /* SERIAL_BAUD_RATE - Baud rate for the serial console */
 #define SERIAL_BAUD_RATE 115200
 
-/* START_FAIL_SAFE - Default 0 = normal. Change to 1 to always start in fail safe mode */
+/* START_FAIL_SAFE - Default 0 = normal. Change to 1 to always start in fail */
+/*	safe mode */
 #define START_FAIL_SAFE 0
 
 /* BEEP_MODE - Beep on error. Default off, Change to 1 to enable */
 #define BEEP_MODE 0
 
-/* BEEP_END_NO_ERROR - Beep at end of each pass without error. Default off, Change to 1 to enable */
+/* BEEP_END_NO_ERROR - Beep at end of each pass without error. Default off, */
+/*	Change to 1 to enable */
 #define BEEP_END_NO_ERROR 0
 
-/* FIRST_PASS_HALF_ITERATIONS - First pass twice faster / half iterations. Change to 0 to disable */
+/* FIRST_PASS_HALF_ITERATIONS - First pass twice faster / half iterations. */
+/*	Change to 0 to disable */
 #define FIRST_PASS_HALF_ITERATIONS 1
 
 /* SCRN_DEBUG - extra check for SCREEN_BUFFER
@@ -45,4 +48,3 @@
 /*	and mouse support*/
 /*	Normally enabled */
 #define USB_WAR
-

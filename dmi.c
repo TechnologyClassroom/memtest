@@ -113,11 +113,11 @@ int strlen(char * string) {
 
 
 char * get_tstruct_string(struct tstruct_header *header, int n) {
-	if(n<1)
+	if (n<1)
 		return 0;
 	char * a = (char *)header + header->length;
 	n--;
-	do{
+	do {
 		if (!*a)
 			n--;
 		if (!n && *a)
@@ -128,7 +128,7 @@ char * get_tstruct_string(struct tstruct_header *header, int n) {
 }
 
 
-int open_dmi(void){
+int open_dmi(void) {
 	char *dmi, *dmi_search_start, *dmi_start;
 	int found=0;
 	struct dmi_eps *eps;
@@ -137,7 +137,7 @@ int open_dmi(void){
 	dmi_search_start = (char *)DMI_SEARCH_START;
 
 	//find anchor
-	for(dmi = dmi_search_start; dmi < dmi_search_start + 0xf0000; dmi +=16){
+	for (dmi = dmi_search_start; dmi < dmi_search_start + 0xf0000; dmi +=16) {
 		if( *dmi == '_' &&
 		    *(dmi+1) == 'S' &&
 		    *(dmi+2) == 'M' &&
@@ -191,7 +191,7 @@ int open_dmi(void){
 
 void init_dmi(void) {
 	int i;
-	for(i=0; i < MAX_DMI_MEMDEVS; i++)
+	for (i=0; i < MAX_DMI_MEMDEVS; i++)
 		dmi_err_cnts[i]=0;
 	open_dmi();
 	dmi_initialized=1;
@@ -201,7 +201,7 @@ void print_dmi_info(void) {
 	int i,j,page;
 	char * string=0;
 
-	if(!dmi_initialized)
+	if (!dmi_initialized)
 		init_dmi();
 
 	if (mem_devs_count == 0) {
@@ -210,7 +210,7 @@ void print_dmi_info(void) {
 		return;
 	}
 
-	for(page=1; page <= 1 + (mem_devs_count-1)/8; page++) {
+	for (page=1; page <= 1 + (mem_devs_count-1)/8; page++) {
 		pop2clear();
 		cprint(POP2_Y+1, POP2_X+2, "DMI Memory Device Info  (page ");
 		itoa(string,page);
@@ -223,7 +223,7 @@ void print_dmi_info(void) {
 		cprint(POP2_Y+3, POP2_X+4, "Location         Size(MB) Speed(MHz) Type   Form");
 		cprint(POP2_Y+4, POP2_X+4, "--------------------------------------------------------------");
 
-		for(i=8*(page-1); i<mem_devs_count && i<8*page; i++) {
+		for (i=8*(page-1); i<mem_devs_count && i<8*page; i++) {
 			int size_in_mb;
 			int yof;
 
@@ -256,7 +256,7 @@ void print_dmi_info(void) {
 			//print mappings
 			int mapped=0,of=0;
 			cprint(yof+1, POP2_X+6,"mapped to: ");
-			for(j=0; j<md_maps_count; j++) {
+			for (j=0; j<md_maps_count; j++) {
 				if (mem_devs[i]->header.handle != md_maps[j]->md_handle)
 					continue;
 				if (mapped++){
@@ -272,7 +272,6 @@ void print_dmi_info(void) {
 			}
 			if (!mapped)
 				cprint(yof+1, POP2_X+17, "No mapping (Interleaved Device)");
-
 		}
 
 		wait_keyup();
@@ -284,16 +283,16 @@ void print_dmi_info(void) {
 int add_dmi_err(ulong adr) {
 	int i,j,found=-1;
 
-	if(!dmi_initialized)
+	if (!dmi_initialized)
 		init_dmi();
 
-	for(i=0; i < md_maps_count; i++) {
+	for (i=0; i < md_maps_count; i++) {
 		if ( adr < (md_maps[i]->start<<10) ||
 		     adr > (md_maps[i]->end<<10) )
 			continue;
 
 		//matching map found, now check find corresponding dev
-		for(j=0; j < mem_devs_count; j++) {
+		for (j=0; j < mem_devs_count; j++) {
 			if (mem_devs[j]->header.handle != md_maps[i]->md_handle)
 				continue;
 			if (dmi_err_cnts[j]) {

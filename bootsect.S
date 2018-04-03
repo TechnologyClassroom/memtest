@@ -41,8 +41,8 @@ _main:
 go:
 	movw	%cs, %ax
 	movw	$(0x4000-12), %dx	# 0x4000 is arbitrary value >= length of
-					# bootsect + length of setup + room for stack
-					# 12 is disk parm size
+					# bootsect + length of setup + room for
+					# stack 12 is disk parm size
 
 # bde - changed 0xff00 to 0x4000 to use debugger at 0x6400 up (bde).  We
 # wouldn't have to worry about this if we checked the top of memory.  Also

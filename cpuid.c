@@ -13,8 +13,7 @@ unsigned num_logical_cpus = 1;		// number of logical cpus per physical package
 unsigned num_cores_per_package = 1;  // number of cores in each physical cpu package
 unsigned num_hyper_threads_per_core = 1;		// number of hyper-threads per core
 
-void
-cpuid_get(unsigned n, cpuid_t *data) {
+void cpuid_get(unsigned n, cpuid_t *data) {
 	data->eax = n;
 	GET_CPUID(data->eax, data->ebx, data->ecx, data->edx);
 }
@@ -79,8 +78,7 @@ cpuid_get_feature_flags(void) {
  *-----------------------------------------------------------------------------
  */
 
-bool
-cpuid_get_ext_feature_flags(cpuid_ext_feature_flags_t *f) { // OUT: Flags for this CPU
+bool cpuid_get_ext_feature_flags(cpuid_ext_feature_flags_t *f) { // OUT: Flags for this CPU
 	uint32_t eax, ebx, ecx;
 
 	if (cpuid_data80.eax < 0x80000001) {
@@ -94,16 +92,14 @@ cpuid_get_ext_feature_flags(cpuid_ext_feature_flags_t *f) { // OUT: Flags for th
 
 #define CHAR_TO_INT(a,b,c,d) ((a) + (b) * 0x100 + (c) * 0x10000 + (d) * 0x1000000)
 
-bool
-cpuid_is_vendor_amd(void) {
+bool cpuid_is_vendor_amd(void) {
 	return cpuid_data0.ebx == CHAR_TO_INT('A', 'u', 't', 'h')
 		&& cpuid_data0.edx == CHAR_TO_INT('e', 'n', 't', 'i')
 		&& cpuid_data0.ecx == CHAR_TO_INT('c', 'A', 'M', 'D');
 }
 
 
-bool
-cpuid_is_vendor_intel(void) {
+bool cpuid_is_vendor_intel(void) {
 	return cpuid_data0.ebx == CHAR_TO_INT('G', 'e', 'n', 'u')
 		&& cpuid_data0.edx == CHAR_TO_INT('i', 'n', 'e', 'I')
 		&& cpuid_data0.ecx == CHAR_TO_INT('n', 't', 'e', 'l');
@@ -123,8 +119,7 @@ cpuid_is_vendor_intel(void) {
  *-----------------------------------------------------------------------------
  */
 
-bool
-cpuid_is_family_p4(void) {
+bool cpuid_is_family_p4(void) {
 	cpuid_version_t v = cpuid_get_version();
 
 	return cpuid_is_vendor_intel() && v.bits.family == CPUID_FAMILY_EXTENDED &&
@@ -144,8 +139,7 @@ cpuid_is_family_p4(void) {
  *-----------------------------------------------------------------------------
  */
 
-bool
-cpuid_is_family_p6(void) {
+bool cpuid_is_family_p6(void) {
 	cpuid_version_t v = cpuid_get_version();
 
 	return cpuid_is_vendor_intel() && v.bits.family == CPUID_FAMILY_P6;
@@ -162,8 +156,7 @@ cpuid_is_family_p6(void) {
  *-----------------------------------------------------------------------------
  */
 
-bool
-cpuid_is_family_opteron(void) {
+bool cpuid_is_family_opteron(void) {
 	cpuid_version_t v = cpuid_get_version();
 	return cpuid_is_vendor_amd() && CPUID_FAMILY_IS_OPTERON(v.flat);
 }
@@ -177,8 +170,7 @@ cpuid_is_family_opteron(void) {
  *
  *-----------------------------------------------------------------------------
  */
-void
-cpuid_init(void) {
+void cpuid_init(void) {
 	//bool htt = FALSE;
 	cpuid_t id1;
 
@@ -225,15 +217,14 @@ cpuid_init(void) {
 		GET_CPUID(cpuid_data80.eax, cpuid_data80.ebx,
 		  cpuid_data80.ecx, cpuid_data80.edx);
 		if (cpuid_max_ext_func() >= 0x80000008) {
-	 /* Number of cores is reported in extended function 0x80000008
-			 * For legacy multi-core support, AMD CPUs report the number of
-			 * cores as hyper-threads. Adjust the numbers to reflect that there
-			 * are no threads.
-			 */
-	 cpuid_t id88;
-	 cpuid_get(0x80000008, &id88);
-	 num_cores_per_package = id88.ecx & 0xff;
-	 num_hyper_threads_per_core = 1;
+	/* Number of cores is reported in extended function 0x80000008
+	 * For legacy multi-core support, AMD CPUs report the number of cores as
+	 * hyper-threads. Adjust the numbers to reflect that there are no
+	 * threads. */
+	cpuid_t id88;
+	cpuid_get(0x80000008, &id88);
+	num_cores_per_package = id88.ecx & 0xff;
+	num_hyper_threads_per_core = 1;
 		}
 	} else {
 		/* Unknown cpu type. we use the defaults */

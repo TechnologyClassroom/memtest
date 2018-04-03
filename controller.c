@@ -335,7 +335,7 @@ static void setup_k10(void) {
 	/* Check First if ECC DRAM Modules are used */
 	pci_conf_read(0, 24, 2, 0x90, 4, &dramcl);
 
-	if ((dramcl >> 19)&1){
+	if ((dramcl >> 19)&1) {
 		/* Fill in the correct memory capabilites */
 		pci_conf_read(0, 24, 3, 0x44, 4, &nbxcfg);
 		ctrl.mode = ddim[(nbxcfg >> 22)&3];
@@ -438,7 +438,6 @@ static void poll_amd751(void) {
 
 			/* Report the error */
 			print_ecc_err(page, 0, bits==1?1:0, 0, 0);
-
 		}
 
 		/* Clear the error status */
@@ -447,14 +446,12 @@ static void poll_amd751(void) {
 }
 
 /* Still waiting for the CORRECT intel datasheet
-static void setup_i85x(void)
-{
+static void setup_i85x(void) {
 	unsigned long drc;
 	ctrl.cap = ECC_CORRECT;
 
 	pci_conf_read(ctrl.bus, ctrl.dev, 1, 0x70, 4, &drc);
 	ctrl.mode = ((drc>>20)&1)?ECC_CORRECT:ECC_NONE;
-
 }
 */
 
@@ -712,7 +709,6 @@ static void poll_i440gx(void) {
 		pci_conf_write(ctrl.bus, ctrl.dev, ctrl.fn, 0x91, 2, 0x11);
 		pci_conf_write(ctrl.bus, ctrl.dev, ctrl.fn, 0x80, 4, 3);
 	}
-
 }
 
 static void setup_i840(void) {
@@ -832,8 +828,7 @@ static void setup_p35(void) {
 	} else {
 		ctrl.cap = ECC_CORRECT;
 	}
-
-	ctrl.mode = ECC_NONE;
+		ctrl.mode = ECC_NONE;
 }
 
 static void poll_i875(void) {
@@ -1163,7 +1158,6 @@ static float getNHMmultiplier(void) {
 		rdmsr(0xCE, msr_lo, msr_hi);
 		coef = (msr_lo >> 8) & 0xFF;
 	}
-
 	return coef;
 }
 
@@ -1177,7 +1171,6 @@ static float getSNBmultiplier(void) {
 		rdmsr(0xCE, msr_lo, msr_hi);
 		coef = (msr_lo >> 16) & 0xFF;
 	}
-
 	return coef;
 }
 
@@ -1222,7 +1215,6 @@ void getIntelPNS(void) {
 		if(psn_edx == 0x20202020) { col -= 4; }
 		ocpuid++;
 	}
-
 	col -= 16;
 }
 
@@ -1261,19 +1253,19 @@ static void poll_fsb_amd64(void) {
 		clockratio = coef;
 
 		switch (temp2) {
-			case 0x0:
-				clockratio = (int)(coef);
-				break;
-			case 0x1:
-				clockratio = (int)(coef * 3.0f/4.0f);
-				break;
-			case 0x2:
-				clockratio = (int)(coef * 3.0f/5.0f);
-				break;
-			case 0x3:
-				clockratio = (int)(coef * 3.0f/6.0f);
-				break;
-			}
+		case 0x0:
+			clockratio = (int)(coef);
+			break;
+		case 0x1:
+			clockratio = (int)(coef * 3.0f/4.0f);
+			break;
+		case 0x2:
+			clockratio = (int)(coef * 3.0f/5.0f);
+			break;
+		case 0x3:
+			clockratio = (int)(coef * 3.0f/6.0f);
+			break;
+		}
 	 } else {
 	 /* OLD K8 */
 		pci_conf_read(0, 24, 2, 0x94, 4, &dramchr);
@@ -1281,25 +1273,25 @@ static void poll_fsb_amd64(void) {
 		clockratio = coef;
 
 		switch (temp2) {
-			case 0x0:
-				clockratio = (int)(coef * 2.0f);
-				break;
-			case 0x2:
-				clockratio = (int)((coef * 3.0f/2.0f) + 0.81f);
-				break;
-			case 0x4:
-				clockratio = (int)((coef * 4.0f/3.0f) + 0.81f);
-				break;
-			case 0x5:
-				clockratio = (int)((coef * 6.0f/5.0f) + 0.81f);
-				break;
-			case 0x6:
-				clockratio = (int)((coef * 10.0f/9.0f) + 0.81f);
-				break;
-			case 0x7:
-				clockratio = (int)(coef + 0.81f);
-				break;
-			}
+		case 0x0:
+			clockratio = (int)(coef * 2.0f);
+			break;
+		case 0x2:
+			clockratio = (int)((coef * 3.0f/2.0f) + 0.81f);
+			break;
+		case 0x4:
+			clockratio = (int)((coef * 4.0f/3.0f) + 0.81f);
+			break;
+		case 0x5:
+			clockratio = (int)((coef * 6.0f/5.0f) + 0.81f);
+			break;
+		case 0x6:
+			clockratio = (int)((coef * 10.0f/9.0f) + 0.81f);
+			break;
+		case 0x7:
+			clockratio = (int)(coef + 0.81f);
+			break;
+		}
 	}
 
 	/* Compute the final DRAM Clock */
@@ -1342,11 +1334,11 @@ static void poll_fsb_k10(void) {
 	temp2 = (dramchr & 0x7);
 
 	switch (temp2) {
-		case 0x7: temp2++;
-		case 0x6: temp2++;
-		case 0x5: temp2++;
-		case 0x4: temp2++;
-		default:  temp2 += 3;
+	case 0x7: temp2++;
+	case 0x6: temp2++;
+	case 0x5: temp2++;
+	case 0x4: temp2++;
+	default:  temp2 += 3;
 	}
 
 	/* Compute the final DRAM Clock */
@@ -1385,11 +1377,10 @@ static void poll_fsb_k10(void) {
 /*
  * 		dramclock = ((((dx * extclock) / divisor) / (mainPllId+8)) / 600000.0) + 0.25;
  */
-}
+	}
 
 	/* ...and print */
 	print_fsb_info(dramclock, "RAM : ", "DDR");
-
 }
 
 static void poll_fsb_k14(void) {
@@ -1422,16 +1413,16 @@ static void poll_fsb_k14(void) {
 	temp2 = (dramchr & 0x1F);
 
 	switch (temp2) {
-		default:
-		case 6:
-			dramclock = 400;
-			break;
-		case 10:
-			dramclock = 533;
-			break;
-		case 14:
-			dramclock = 667;
-			break;
+	default:
+	case 6:
+		dramclock = 400;
+		break;
+	case 10:
+		dramclock = 533;
+		break;
+	case 14:
+		dramclock = 667;
+		break;
 	}
 
 	/* print */
@@ -1459,25 +1450,28 @@ static void poll_fsb_i925(void) {
 
 	if ((drc&3) != 2) {
 		// We are in DDR1 Mode
-		if (mchcfg2 == 1) { dramratio = 0.8; } else { dramratio = 1; }
+		if (mchcfg2 == 1) { dramratio = 0.8; }
+		else { dramratio = 1; }
 	} else {
 		// We are in DDR2 Mode
 		if ((mchcfg >> 2)&1) {
 			// We are in FSB1066 Mode
-			if (mchcfg2 == 2) { dramratio = 0.75; } else { dramratio = 1; }
+			if (mchcfg2 == 2) { dramratio = 0.75; }
+			else { dramratio = 1; }
 		} else {
 			switch (mchcfg2) {
-				case 1:
-					dramratio = 0.66667;
-					break;
-				case 2:
-					if (idetect != 0x2590) { dramratio = 1; } else { dramratio = 1.5; }
-					break;
-				case 3:
-						// Checking for FSB533 Mode & Alviso
-						if ((mchcfg & 1) == 0) { dramratio = 1.33334; }
-						else if (idetect == 0x2590) { dramratio = 2; }
-						else { dramratio = 1.5; }
+			case 1:
+				dramratio = 0.66667;
+				break;
+			case 2:
+				if (idetect != 0x2590) { dramratio = 1; }
+				else { dramratio = 1.5; }
+				break;
+			case 3:
+				// Checking for FSB533 Mode & Alviso
+				if ((mchcfg & 1) == 0) { dramratio = 1.33334; }
+				else if (idetect == 0x2590) { dramratio = 2; }
+				else { dramratio = 1.5; }
 			}
 		}
 	}
@@ -1512,10 +1506,10 @@ static void poll_fsb_i945(void) {
 	dramratio = 1;
 
 	switch ((mchcfg >> 4)&7) {
-		case 1:	dramratio = 1.0; break;
-		case 2:	dramratio = 1.33334; break;
-		case 3:	dramratio = 1.66667; break;
-		case 4:	dramratio = 2.0; break;
+	case 1:	dramratio = 1.0; break;
+	case 2:	dramratio = 1.33334; break;
+	case 3:	dramratio = 1.66667; break;
+	case 4:	dramratio = 2.0; break;
 	}
 
 	// Compute RAM Frequency
@@ -1548,37 +1542,37 @@ static void poll_fsb_i975(void) {
 	dramratio = 1;
 
 	switch (mchcfg & 7) {
-		case 1: fsb_mch = 533; break;
-		case 2:	fsb_mch = 800; break;
-		case 3:	fsb_mch = 667; break;
-		default: fsb_mch = 1066; break;
+	case 1: fsb_mch = 533; break;
+	case 2:	fsb_mch = 800; break;
+	case 3:	fsb_mch = 667; break;
+	default: fsb_mch = 1066; break;
 	}
 
 	switch (fsb_mch) {
-		case 533:
-			switch ((mchcfg >> 4)&7) {
-				case 0:	dramratio = 1.25; break;
-				case 1:	dramratio = 1.5; break;
-				case 2:	dramratio = 2.0; break;
-			}
-			break;
-		default:
-		case 800:
-			switch ((mchcfg >> 4)&7) {
-				case 1:	dramratio = 1.0; break;
-				case 2:	dramratio = 1.33334; break;
-				case 3:	dramratio = 1.66667; break;
-				case 4:	dramratio = 2.0; break;
-			}
-			break;
-		case 1066:
-			switch ((mchcfg >> 4)&7) {
-				case 1:	dramratio = 0.75; break;
-				case 2:	dramratio = 1.0; break;
-				case 3:	dramratio = 1.25; break;
-				case 4:	dramratio = 1.5; break;
-			}
-			break;
+	case 533:
+		switch ((mchcfg >> 4)&7) {
+		case 0:	dramratio = 1.25; break;
+		case 1:	dramratio = 1.5; break;
+		case 2:	dramratio = 2.0; break;
+		}
+		break;
+	default:
+	case 800:
+		switch ((mchcfg >> 4)&7) {
+		case 1:	dramratio = 1.0; break;
+		case 2:	dramratio = 1.33334; break;
+		case 3:	dramratio = 1.66667; break;
+		case 4:	dramratio = 2.0; break;
+		}
+		break;
+	case 1066:
+		switch ((mchcfg >> 4)&7) {
+		case 1:	dramratio = 0.75; break;
+		case 2:	dramratio = 1.0; break;
+		case 3:	dramratio = 1.25; break;
+		case 4:	dramratio = 1.5; break;
+		}
+		break;
 	}
 
 
@@ -1612,59 +1606,59 @@ static void poll_fsb_i965(void) {
 	dramratio = 1;
 
 	switch (mchcfg & 7) {
-		case 0: fsb_mch = 1066; break;
-		case 1: fsb_mch = 533; break;
-		default: case 2:	fsb_mch = 800; break;
-		case 3:	fsb_mch = 667; break;
-		case 4: fsb_mch = 1333; break;
-		case 6: fsb_mch = 1600; break;
+	case 0: fsb_mch = 1066; break;
+	case 1: fsb_mch = 533; break;
+	default: case 2:	fsb_mch = 800; break;
+	case 3:	fsb_mch = 667; break;
+	case 4: fsb_mch = 1333; break;
+	case 6: fsb_mch = 1600; break;
 	}
 
 
 	switch (fsb_mch) {
-		case 533:
-			switch ((mchcfg >> 4)&7) {
-				case 1:	dramratio = 2.0; break;
-				case 2:	dramratio = 2.5; break;
-				case 3:	dramratio = 3.0; break;
-			}
-			break;
+	case 533:
+		switch ((mchcfg >> 4)&7) {
+		case 1:	dramratio = 2.0; break;
+		case 2:	dramratio = 2.5; break;
+		case 3:	dramratio = 3.0; break;
+		}
+		break;
 		default:
-		case 800:
-			switch ((mchcfg >> 4)&7) {
-				case 0:	dramratio = 1.0; break;
-				case 1:	dramratio = 5.0f/4.0f; break;
-				case 2:	dramratio = 5.0f/3.0f; break;
-				case 3:	dramratio = 2.0; break;
-				case 4:	dramratio = 8.0f/3.0f; break;
-				case 5:	dramratio = 10.0f/3.0f; break;
-			}
-			break;
-		case 1066:
-			switch ((mchcfg >> 4)&7) {
-				case 1:	dramratio = 1.0f; break;
-				case 2:	dramratio = 5.0f/4.0f; break;
-				case 3:	dramratio = 3.0f/2.0f; break;
-				case 4:	dramratio = 2.0f; break;
-				case 5:	dramratio = 5.0f/2.0f; break;
-			}
-			break;
-		case 1333:
-			switch ((mchcfg >> 4)&7) {
-				case 2:	dramratio = 1.0f; break;
-				case 3:	dramratio = 6.0f/5.0f; break;
-				case 4:	dramratio = 8.0f/5.0f; break;
-				case 5:	dramratio = 2.0f; break;
-			}
-			break;
-		case 1600:
-			switch ((mchcfg >> 4)&7) {
-				case 3:	dramratio = 1.0f; break;
-				case 4:	dramratio = 4.0f/3.0f; break;
-				case 5:	dramratio = 3.0f/2.0f; break;
-				case 6:	dramratio = 2.0f; break;
-			}
-			break;
+	case 800:
+		switch ((mchcfg >> 4)&7) {
+		case 0:	dramratio = 1.0; break;
+		case 1:	dramratio = 5.0f/4.0f; break;
+		case 2:	dramratio = 5.0f/3.0f; break;
+		case 3:	dramratio = 2.0; break;
+		case 4:	dramratio = 8.0f/3.0f; break;
+		case 5:	dramratio = 10.0f/3.0f; break;
+		}
+		break;
+	case 1066:
+		switch ((mchcfg >> 4)&7) {
+		case 1:	dramratio = 1.0f; break;
+		case 2:	dramratio = 5.0f/4.0f; break;
+		case 3:	dramratio = 3.0f/2.0f; break;
+		case 4:	dramratio = 2.0f; break;
+		case 5:	dramratio = 5.0f/2.0f; break;
+		}
+		break;
+	case 1333:
+		switch ((mchcfg >> 4)&7) {
+		case 2:	dramratio = 1.0f; break;
+		case 3:	dramratio = 6.0f/5.0f; break;
+		case 4:	dramratio = 8.0f/5.0f; break;
+		case 5:	dramratio = 2.0f; break;
+		}
+		break;
+	case 1600:
+		switch ((mchcfg >> 4)&7) {
+		case 3:	dramratio = 1.0f; break;
+		case 4:	dramratio = 4.0f/3.0f; break;
+		case 5:	dramratio = 3.0f/2.0f; break;
+		case 6:	dramratio = 2.0f; break;
+		}
+		break;
 	}
 
 	// Compute RAM Frequency
@@ -1697,46 +1691,46 @@ static void poll_fsb_im965(void) {
 	dramratio = 1;
 
 	switch (mchcfg & 7) {
-		case 1: fsb_mch = 533; break;
-		default: case 2:	fsb_mch = 800; break;
-		case 3:	fsb_mch = 667; break;
-		case 6:	fsb_mch = 1066; break;
+	case 1: fsb_mch = 533; break;
+	default: case 2:	fsb_mch = 800; break;
+	case 3:	fsb_mch = 667; break;
+	case 6:	fsb_mch = 1066; break;
 	}
 
 
 	switch (fsb_mch) {
-		case 533:
-			switch ((mchcfg >> 4)&7) {
-				case 1:	dramratio = 5.0f/4.0f; break;
-				case 2:	dramratio = 3.0f/2.0f; break;
-				case 3:	dramratio = 2.0f; break;
-			}
-			break;
-		case 667:
-			switch ((mchcfg >> 4)&7) {
-				case 1:	dramratio = 1.0f; break;
-				case 2:	dramratio = 6.0f/5.0f; break;
-				case 3:	dramratio = 8.0f/5.0f; break;
-				case 4:	dramratio = 2.0f; break;
-				case 5:	dramratio = 12.0f/5.0f; break;
-			}
-			break;
-		default:
-		case 800:
-			switch ((mchcfg >> 4)&7) {
-				case 1:	dramratio = 5.0f/6.0f; break;
-				case 2:	dramratio = 1.0f; break;
-				case 3:	dramratio = 4.0f/3.0f; break;
-				case 4:	dramratio = 5.0f/3.0f; break;
-				case 5:	dramratio = 2.0f; break;
-			}
-			break;
-		case 1066:
-			switch ((mchcfg >> 4)&7) {
-				case 5:	dramratio = 3.0f/2.0f; break;
-				case 6:	dramratio = 2.0f; break;
-			}
-			break;
+	case 533:
+		switch ((mchcfg >> 4)&7) {
+		case 1:	dramratio = 5.0f/4.0f; break;
+		case 2:	dramratio = 3.0f/2.0f; break;
+		case 3:	dramratio = 2.0f; break;
+		}
+		break;
+	case 667:
+		switch ((mchcfg >> 4)&7) {
+		case 1:	dramratio = 1.0f; break;
+		case 2:	dramratio = 6.0f/5.0f; break;
+		case 3:	dramratio = 8.0f/5.0f; break;
+		case 4:	dramratio = 2.0f; break;
+		case 5:	dramratio = 12.0f/5.0f; break;
+		}
+		break;
+	default:
+	case 800:
+		switch ((mchcfg >> 4)&7) {
+		case 1:	dramratio = 5.0f/6.0f; break;
+		case 2:	dramratio = 1.0f; break;
+		case 3:	dramratio = 4.0f/3.0f; break;
+		case 4:	dramratio = 5.0f/3.0f; break;
+		case 5:	dramratio = 2.0f; break;
+		}
+		break;
+	case 1066:
+		switch ((mchcfg >> 4)&7) {
+		case 5:	dramratio = 3.0f/2.0f; break;
+		case 6:	dramratio = 2.0f; break;
+		}
+		break;
 	}
 
 	// Compute RAM Frequency
@@ -1771,20 +1765,19 @@ static void poll_fsb_5400(void) {
 	dramratio = 1;
 
 	switch (ddrfrq) {
-		case 0:
-		case 1:
-		case 4:
-			dramratio = 1.0;
-			break;
-		case 2:
-			dramratio = 5.0f/4.0f;
-			break;
-		case 3:
-		case 7:
-			dramratio = 4.0f/5.0f;
-			break;
+	case 0:
+	case 1:
+	case 4:
+		dramratio = 1.0;
+		break;
+	case 2:
+		dramratio = 5.0f/4.0f;
+		break;
+	case 3:
+	case 7:
+		dramratio = 4.0f/5.0f;
+		break;
 	}
-
 
 	// Compute RAM Frequency
 	fsb = ((extclock / 1000) / coef);
@@ -1947,7 +1940,6 @@ static void poll_fsb_i855(void) {
 	}
 
 	/* Compute DRAM Clock */
-
 	dramratio = 1;
 	if (idetect == 0x3580) {
 		pci_conf_read( 0, 0, 3, 0xC0, 2, &mchcfg);
@@ -2059,27 +2051,27 @@ static void poll_fsb_us15w(void) {
 	}
 
 	switch (( msr >> 0 ) & 7) {
-		case 0:
-			gfx = 100;
-			break;
-		case 1:
-			gfx = 133;
-			break;
-		case 2:
-			gfx = 150;
-			break;
-		case 3:
-			gfx = 178;
-			break;
-		case 4:
-			gfx = 200;
-			break;
-		case 5:
-			gfx = 266;
-			break;
-		default:
-			gfx = 0;
-			break;
+	case 0:
+		gfx = 100;
+		break;
+	case 1:
+		gfx = 133;
+		break;
+	case 2:
+		gfx = 150;
+		break;
+	case 3:
+		gfx = 178;
+		break;
+	case 4:
+		gfx = 200;
+		break;
+	case 5:
+		gfx = 266;
+		break;
+	default:
+		gfx = 0;
+		break;
 	}
 
 	dramclock = fsb * dramratio;
@@ -2137,7 +2129,6 @@ static void poll_fsb_nhm(void) {
 	}
 
 	/* Get the clock ratio */
-
 	pci_conf_read(nhm_bus, 3, 4, 0x54, 2, &mc_dimm_clk_ratio);
 	dramratio = (mc_dimm_clk_ratio & 0x1F);
 
@@ -2150,7 +2141,6 @@ static void poll_fsb_nhm(void) {
 }
 
 static void poll_fsb_nhm32(void) {
-
 	double dramclock, dramratio, fsb;
 	unsigned long mc_dimm_clk_ratio, qpi_pll_status;
 	float coef = getNHMmultiplier();
@@ -2912,7 +2902,9 @@ static void poll_timings_E750x(void) {
 	if (drt & 1) { rp = 2; } else { rp = 3; };
 
 	temp = ((drt >> 9) & 3);
-	if (temp == 2) { ras = 5; } else if (temp == 1) { ras = 6; } else { ras = 7; }
+	if (temp == 2) { ras = 5; }
+	else if (temp == 1) { ras = 6; }
+	else { ras = 7; }
 
 	print_timings_info(cas, rcd, rp, ras);
 
@@ -3119,7 +3111,6 @@ static void poll_timings_k14(void) {
 	print_timings_info(cas, rcd, rp, ras);
 
 	cprint(LINE_CPU+6, col2, "/ DDR3 (64 bits)");
-
 }
 
 static void poll_timings_EP80579(void) {
@@ -3232,11 +3223,11 @@ static void poll_timings_nhm(void) {
 	mc_control = (mc_control >> 8) & 0x7;
 
 	/* Get the first valid channel */
-	if(mc_control & 1) {
+	if (mc_control & 1) {
 		fvc_bn = 4;
-	} else if(mc_control & 2) {
+	} else if (mc_control & 2) {
 		fvc_bn = 5;
-	} else if(mc_control & 4) {
+	} else if (mc_control & 4) {
 		fvc_bn = 6;
 	}
 
@@ -3471,7 +3462,8 @@ static void print_memory_controller(void) {
 			cprint(LINE_CPU+5, col, " Chipkill : ");
 			cprint(LINE_CPU+5, col +12, on?"On)":"Off)");
 			on?(col += 15):(col +=16);
-	}}
+		}
+	}
 	if (ctrl.mode & __ECC_SCRUB) {
 		int on;
 		on = ctrl.mode & __ECC_SCRUB;

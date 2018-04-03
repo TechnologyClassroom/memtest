@@ -133,9 +133,9 @@ void amd64_option() {
 
 		cprint(POP_Y+6, POP_X+4, "(4) Refresh Rate  : ");
 		switch ( a64.t_ref) {
-			case 1 : cprint(POP_Y+6, POP_X+23, "15.6us"); break;
-			case 2 : cprint(POP_Y+6, POP_X+23, " 7.8us"); break;
-			case 3 : cprint(POP_Y+6, POP_X+23, " 3.9us"); break;
+		case 1 : cprint(POP_Y+6, POP_X+23, "15.6us"); break;
+		case 2 : cprint(POP_Y+6, POP_X+23, " 7.8us"); break;
+		case 3 : cprint(POP_Y+6, POP_X+23, " 3.9us"); break;
 		}
 		cprint(POP_Y+7, POP_X+4,  "(5) Command Rate  :");
 		dprint(POP_Y+7, POP_X+24, a64.t_en2t, 2, 0);
@@ -154,111 +154,111 @@ void amd64_option() {
 
 		while (!flag) {
 			switch (get_key()) {
-				case 2:
-					popclear();
-					// read-to-write delay
-					cprint(POP_Y+3, POP_X+4, "Rd-Wr delay ");
-					cprint(POP_Y+4, POP_X+4, " (2 - 6 cycles)");
-					cprint(POP_Y+5, POP_X+4, "Current: ");
-					dprint(POP_Y+5, POP_X+14, a64.t_rwt, 4, 0);
-					cprint(POP_Y+7, POP_X+4, "New: ");
-					rwt = getval(POP_Y+7, POP_X+12, 0);
-					amd64_tweak(rwt, wrt, ref,en2t, rct, rrd, rwqb, wr);
-					break;
+			case 2:
+				popclear();
+				// read-to-write delay
+				cprint(POP_Y+3, POP_X+4, "Rd-Wr delay ");
+				cprint(POP_Y+4, POP_X+4, " (2 - 6 cycles)");
+				cprint(POP_Y+5, POP_X+4, "Current: ");
+				dprint(POP_Y+5, POP_X+14, a64.t_rwt, 4, 0);
+				cprint(POP_Y+7, POP_X+4, "New: ");
+				rwt = getval(POP_Y+7, POP_X+12, 0);
+				amd64_tweak(rwt, wrt, ref,en2t, rct, rrd, rwqb, wr);
+				break;
 
-				case 3:
-					popclear();
-					// read-to-write delay
-					cprint(POP_Y+3, POP_X+4, "Wr-Rd delay ");
-					cprint(POP_Y+4, POP_X+4, " (1 - 2 cycles)");
-					cprint(POP_Y+5, POP_X+4, "Current: ");
-					dprint(POP_Y+5, POP_X+14, a64.t_wrt, 4, 0);
-					cprint(POP_Y+7, POP_X+4, "New: ");
-					wrt = getval(POP_Y+7, POP_X+12, 0);
-					amd64_tweak(rwt, wrt, ref,en2t, rct, rrd, rwqb, wr);
-					break;
+			case 3:
+				popclear();
+				// read-to-write delay
+				cprint(POP_Y+3, POP_X+4, "Wr-Rd delay ");
+				cprint(POP_Y+4, POP_X+4, " (1 - 2 cycles)");
+				cprint(POP_Y+5, POP_X+4, "Current: ");
+				dprint(POP_Y+5, POP_X+14, a64.t_wrt, 4, 0);
+				cprint(POP_Y+7, POP_X+4, "New: ");
+				wrt = getval(POP_Y+7, POP_X+12, 0);
+				amd64_tweak(rwt, wrt, ref,en2t, rct, rrd, rwqb, wr);
+				break;
 
-				case 4:
-					popclear();
-					// Read write queue bypass count
-					cprint(POP_Y+3, POP_X+4, "Rd/Wr bypass ");
-					cprint(POP_Y+4, POP_X+4, " (2, 4 or 8 )");
-					cprint(POP_Y+5, POP_X+4, "Current: ");
-					dprint(POP_Y+5, POP_X+14, a64.t_rwqb, 2, 0);
-					cprint(POP_Y+7, POP_X+4, "New: ");
-					rwqb = getval(POP_Y+7, POP_X+11, 0);
-					amd64_tweak(rwt, wrt, ref,en2t, rct, rrd, rwqb, wr);
-					break;
+			case 4:
+				popclear();
+				// Read write queue bypass count
+				cprint(POP_Y+3, POP_X+4, "Rd/Wr bypass ");
+				cprint(POP_Y+4, POP_X+4, " (2, 4 or 8 )");
+				cprint(POP_Y+5, POP_X+4, "Current: ");
+				dprint(POP_Y+5, POP_X+14, a64.t_rwqb, 2, 0);
+				cprint(POP_Y+7, POP_X+4, "New: ");
+				rwqb = getval(POP_Y+7, POP_X+11, 0);
+				amd64_tweak(rwt, wrt, ref,en2t, rct, rrd, rwqb, wr);
+				break;
 
-				case 5:
-					popclear();
-					// refresh rate
-					cprint(POP_Y+3, POP_X+4, "Refresh rate ");
-					cprint(POP_Y+4, POP_X+4, "Current: ");
-					switch ( a64.t_ref) {
-						case 1 : cprint(POP_Y+4, POP_X+14, "15.6us"); break;
-						case 2 : cprint(POP_Y+4, POP_X+14, "7.8us "); break;
-						case 3 : cprint(POP_Y+4, POP_X+14, "3.9us "); break;
-					}
-					cprint(POP_Y+6, POP_X+4, "New: ");
-					cprint(POP_Y+7, POP_X+4, "(1) 15.6us");
-					cprint(POP_Y+8, POP_X+4, "(2) 7.8us ");
-					cprint(POP_Y+9, POP_X+4, "(3) 3.9us ");
-					ref = getval(POP_Y+6, POP_X+11, 0);
-					amd64_tweak(rwt, wrt, ref,en2t, rct, rrd, rwqb, wr);
-					break;
+			case 5:
+				popclear();
+				// refresh rate
+				cprint(POP_Y+3, POP_X+4, "Refresh rate ");
+				cprint(POP_Y+4, POP_X+4, "Current: ");
+				switch ( a64.t_ref) {
+				case 1 : cprint(POP_Y+4, POP_X+14, "15.6us"); break;
+				case 2 : cprint(POP_Y+4, POP_X+14, "7.8us "); break;
+				case 3 : cprint(POP_Y+4, POP_X+14, "3.9us "); break;
+				}
+				cprint(POP_Y+6, POP_X+4, "New: ");
+				cprint(POP_Y+7, POP_X+4, "(1) 15.6us");
+				cprint(POP_Y+8, POP_X+4, "(2) 7.8us ");
+				cprint(POP_Y+9, POP_X+4, "(3) 3.9us ");
+				ref = getval(POP_Y+6, POP_X+11, 0);
+				amd64_tweak(rwt, wrt, ref,en2t, rct, rrd, rwqb, wr);
+				break;
 
-				case 6:
-					popclear();
-					//Enable 2T command and addressing
-					cprint(POP_Y+3, POP_X+4, "Command rate:");
-					cprint(POP_Y+5, POP_X+4, "(1) 1T "); //only supoprted by CG revision and later
-					cprint(POP_Y+6, POP_X+4, "(2) 2T ");
-					en2t = getval(POP_Y+3, POP_X+22, 0);
-					amd64_tweak(rwt, wrt, ref,en2t, rct, rrd, rwqb, wr);
-					break;
+			case 6:
+				popclear();
+				//Enable 2T command and addressing
+				cprint(POP_Y+3, POP_X+4, "Command rate:");
+				cprint(POP_Y+5, POP_X+4, "(1) 1T "); //only supoprted by CG revision and later
+				cprint(POP_Y+6, POP_X+4, "(2) 2T ");
+				en2t = getval(POP_Y+3, POP_X+22, 0);
+				amd64_tweak(rwt, wrt, ref,en2t, rct, rrd, rwqb, wr);
+				break;
 
-				case 7:
-					popclear();
-					//Row cycle time
-					cprint(POP_Y+3, POP_X+4, "Row cycle time: ");
-					cprint(POP_Y+4, POP_X+4, " (7 - 20 cycles)");
-					cprint(POP_Y+5, POP_X+4, "Current: ");
-					dprint(POP_Y+5, POP_X+14, a64.t_rct, 4, 0);
-					cprint(POP_Y+7, POP_X+4, "New: ");
-					rct = getval(POP_Y+7, POP_X+12, 0);
-					amd64_tweak(rwt, wrt, ref,en2t, rct, rrd, rwqb, wr);
-					break;
+			case 7:
+				popclear();
+				//Row cycle time
+				cprint(POP_Y+3, POP_X+4, "Row cycle time: ");
+				cprint(POP_Y+4, POP_X+4, " (7 - 20 cycles)");
+				cprint(POP_Y+5, POP_X+4, "Current: ");
+				dprint(POP_Y+5, POP_X+14, a64.t_rct, 4, 0);
+				cprint(POP_Y+7, POP_X+4, "New: ");
+				rct = getval(POP_Y+7, POP_X+12, 0);
+				amd64_tweak(rwt, wrt, ref,en2t, rct, rrd, rwqb, wr);
+				break;
 
-				case 8:
-					popclear();
-					//Active-to-Active RAS Delay
-					cprint(POP_Y+3, POP_X+4, "RAS-RAS Delay: ");
-					cprint(POP_Y+4, POP_X+4, " (2 - 4 cycles)");
-					cprint(POP_Y+5, POP_X+4, "Current: ");
-					dprint(POP_Y+5, POP_X+14, a64.t_rrd, 2, 0);
-					cprint(POP_Y+7, POP_X+4, "New: ");
-					rrd = getval(POP_Y+7, POP_X+12, 0);
-					amd64_tweak(rwt, wrt, ref,en2t, rct, rrd, rwqb, wr);
-					break;
+			case 8:
+				popclear();
+				//Active-to-Active RAS Delay
+				cprint(POP_Y+3, POP_X+4, "RAS-RAS Delay: ");
+				cprint(POP_Y+4, POP_X+4, " (2 - 4 cycles)");
+				cprint(POP_Y+5, POP_X+4, "Current: ");
+				dprint(POP_Y+5, POP_X+14, a64.t_rrd, 2, 0);
+				cprint(POP_Y+7, POP_X+4, "New: ");
+				rrd = getval(POP_Y+7, POP_X+12, 0);
+				amd64_tweak(rwt, wrt, ref,en2t, rct, rrd, rwqb, wr);
+				break;
 
-				case 9:
-					popclear();
-					//Active-to-Active RAS Delay
-					cprint(POP_Y+3, POP_X+4, "Write Recovery: ");
-					cprint(POP_Y+4, POP_X+4, " (2 - 3 cycles)");
-					cprint(POP_Y+5, POP_X+4, "Current: ");
-					dprint(POP_Y+5, POP_X+14, a64.t_wr, 2, 0);
-					cprint(POP_Y+7, POP_X+4, "New: ");
-					wr = getval(POP_Y+7, POP_X+12, 0);
-					amd64_tweak(rwt, wrt, ref,en2t, rct, rrd, rwqb, wr);
-					break;
+			case 9:
+				popclear();
+				//Active-to-Active RAS Delay
+				cprint(POP_Y+3, POP_X+4, "Write Recovery: ");
+				cprint(POP_Y+4, POP_X+4, " (2 - 3 cycles)");
+				cprint(POP_Y+5, POP_X+4, "Current: ");
+				dprint(POP_Y+5, POP_X+14, a64.t_wr, 2, 0);
+				cprint(POP_Y+7, POP_X+4, "New: ");
+				wr = getval(POP_Y+7, POP_X+12, 0);
+				amd64_tweak(rwt, wrt, ref,en2t, rct, rrd, rwqb, wr);
+				break;
 
-				case 11:
-				case 57:
-					flag++;
-					/* 0/CR - Cancel */
-					break;
+			case 11:
+			case 57:
+				flag++;
+				/* 0/CR - Cancel */
+				break;
 			}
 		}
 	}
@@ -269,71 +269,71 @@ void get_option() {
 
 	while (!sflag) {
 		switch (get_key()) {
-			case 2:
-				popclear();
-				cas = get_cas();
-				popclear();
+		case 2:
+			popclear();
+			cas = get_cas();
+			popclear();
 
-				cprint(POP_Y+3, POP_X+8, "tRCD: ");
-				rcd = getval(POP_Y+3, POP_X+15, 0);
-				popclear();
+			cprint(POP_Y+3, POP_X+8, "tRCD: ");
+			rcd = getval(POP_Y+3, POP_X+15, 0);
+			popclear();
 
-				cprint(POP_Y+3, POP_X+8, "tRP: ");
-				rp = getval(POP_Y+3, POP_X+15, 0);
-				popclear();
+			cprint(POP_Y+3, POP_X+8, "tRP: ");
+			rp = getval(POP_Y+3, POP_X+15, 0);
+			popclear();
 
-				cprint(POP_Y+3, POP_X+8, "tRAS: ");
-				ras = getval(POP_Y+3, POP_X+15, 0);
-				popclear();
-				change_timing(cas, rcd, rp, ras);
-				break;
+			cprint(POP_Y+3, POP_X+8, "tRAS: ");
+			ras = getval(POP_Y+3, POP_X+15, 0);
+			popclear();
+			change_timing(cas, rcd, rp, ras);
+			break;
 
-			case 3:
-				popclear();
-				cas = get_cas();
-				change_timing(cas, 0, 0, 0);
-				sflag++;
-				break;
+		case 3:
+			popclear();
+			cas = get_cas();
+			change_timing(cas, 0, 0, 0);
+			sflag++;
+			break;
 
-			case 4:
-				popclear();
-				cprint(POP_Y+3, POP_X+8, "tRCD: ");
-				rcd =getval(POP_Y+3, POP_X+15, 0);
-				change_timing(0, rcd, 0, 0);
-				sflag++;
-				break;
+		case 4:
+			popclear();
+			cprint(POP_Y+3, POP_X+8, "tRCD: ");
+			rcd =getval(POP_Y+3, POP_X+15, 0);
+			change_timing(0, rcd, 0, 0);
+			sflag++;
+			break;
 
-			case 5:
-				popclear();
-				cprint(POP_Y+3, POP_X+8, "tRP: ");
-				rp =getval(POP_Y+3, POP_X+15, 0);
-				change_timing(0, 0, rp, 0);
-				sflag++;
-				break;
+		case 5:
+			popclear();
+			cprint(POP_Y+3, POP_X+8, "tRP: ");
+			rp =getval(POP_Y+3, POP_X+15, 0);
+			change_timing(0, 0, rp, 0);
+			sflag++;
+			break;
 
-			case 6:
-				popclear();
-				cprint(POP_Y+3, POP_X+8, "tRAS: ");
-				ras =getval(POP_Y+3, POP_X+15, 0);
-				change_timing(0, 0, 0, ras);
-				sflag++;
-				break;
+		case 6:
+			popclear();
+			cprint(POP_Y+3, POP_X+8, "tRAS: ");
+			ras =getval(POP_Y+3, POP_X+15, 0);
+			change_timing(0, 0, 0, ras);
+			sflag++;
+			break;
 
-			case 7:
-				popclear();
-				amd64_option();
-				sflag++;
-				popclear();
-				break;
+		case 7:
+			popclear();
+			amd64_option();
+			sflag++;
+			popclear();
+			break;
 
-			case 8:
-				break;
+		case 8:
+			break;
 
-			case 11:
-			case 57:
-				sflag++;
-				/* 0/CR - Cancel */
-				break;
+		case 11:
+		case 57:
+			sflag++;
+			/* 0/CR - Cancel */
+			break;
 		}
 	}
 }
@@ -407,14 +407,14 @@ void get_menu(void) {
 	disclaimer();
 
 	switch (ctrl) {
-		case 0: menu = 2;	break;
-		case 1:
-		case 2:
-		case 3:
-		case 4:	menu = 0;	break;
-		case 5: menu = 1;	break;
-		case 6: menu = 0;	break;
-		default: menu = -1;	break;
+	case 0: menu = 2;	break;
+	case 1:
+	case 2:
+	case 3:
+	case 4:	menu = 0;	break;
+	case 5: menu = 1;	break;
+	case 6: menu = 0;	break;
+	default: menu = -1;	break;
 	}
 
 	if (menu == -1) {
@@ -457,22 +457,22 @@ int get_cas(void) {
 	long *ptr;
 
 	switch (ctrl) {
-		case 0: ddr = 1; break;
-		case 1:
-		case 2:
-		case 3:	ddr = 1; break;
-		case 4:
-			pci_conf_read( 0, 0, 0, 0x44, 4, &ddr);
-			ddr &= 0xFFFFC000;
-			ptr=(long*)(ddr+0x120);
-			drc = *ptr;
+	case 0: ddr = 1; break;
+	case 1:
+	case 2:
+	case 3:	ddr = 1; break;
+	case 4:
+		pci_conf_read( 0, 0, 0, 0x44, 4, &ddr);
+		ddr &= 0xFFFFC000;
+		ptr=(long*)(ddr+0x120);
+		drc = *ptr;
 
-			if ((drc & 3) == 2) ddr = 2;
-			else ddr = 1;
-			break;
-		case 5: ddr = 2; break;
-		case 6: ddr = 1; i852 = 1; break;
-		default: ddr = 1;
+		if ((drc & 3) == 2) ddr = 2;
+		else ddr = 1;
+		break;
+	case 5: ddr = 2; break;
+	case 6: ddr = 1; i852 = 1; break;
+	default: ddr = 1;
 	}
 
 	if (ddr == 1) {

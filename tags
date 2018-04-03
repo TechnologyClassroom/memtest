@@ -1,0 +1,18 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ITER	config.c	14;"	d	file:
+adj_mem	config.c	/^void adj_mem(void)$/;"	f
+clear_screen	config.c	/^void clear_screen()$/;"	f
+get_config	config.c	/^void get_config()$/;"	f
+pop2clear	config.c	/^void pop2clear()$/;"	f
+pop2down	config.c	/^void pop2down()$/;"	f
+pop2up	config.c	/^void pop2up()$/;"	f
+popclear	config.c	/^void popclear()$/;"	f
+popdown	config.c	/^void popdown()$/;"	f
+popup	config.c	/^void popup()$/;"	f
+save	config.c	/^char save[2][POP_H][POP_W];$/;"	v
+save2	config.c	/^char save2[2][POP2_H][POP2_W];$/;"	v

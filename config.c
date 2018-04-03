@@ -23,8 +23,7 @@ extern int find_ticks_for_pass();
 char save[2][POP_H][POP_W];
 char save2[2][POP2_H][POP2_W];
 
-void get_config()
-{
+void get_config() {
 	int flag = 0, sflag = 0, i, prt = 0;
         int reprint_screen = 0;
 	ulong page;
@@ -259,7 +258,7 @@ void get_config()
 			if (beepmode) { cprint(POP_Y+8, POP_X+5, ">"); }
 			wait_keyup();
 			while (!sflag) {
-								switch(get_key()) {
+				switch(get_key()) {
 				case 2:
 					/* Error Summary */
 					v->printmode=PRINTMODE_SUMMARY;
@@ -311,9 +310,9 @@ void get_config()
 		case 6:
 			/* Display DMI Memory Info */
 			pop2up();
-      print_dmi_info();
+			print_dmi_info();
 			pop2down();
-      break;
+			break;
 		case 7:
 			/* 6 - ECC Polling Mode */
 			popclear();
@@ -397,8 +396,7 @@ void popup()
         tty_print_region(POP_Y, POP_X, POP_Y+POP_H, POP_X+POP_W);
 }
 
-void popdown()
-{
+void popdown() {
 	int i, j;
 	char *pp;
 
@@ -414,8 +412,7 @@ void popdown()
         tty_print_region(POP_Y, POP_X, POP_Y+POP_H, POP_X+POP_W);
 }
 
-void popclear()
-{
+void popclear() {
 	int i, j;
 	char *pp;
 
@@ -431,8 +428,7 @@ void popclear()
 }
 
 
-void pop2up()
-{
+void pop2up() {
 	int i, j;
 	char *pp;
 
@@ -450,8 +446,7 @@ void pop2up()
         tty_print_region(POP2_Y, POP2_X, POP2_Y+POP2_H, POP2_X+POP2_W);
 }
 
-void pop2down()
-{
+void pop2down() {
 	int i, j;
 	char *pp;
 
@@ -467,8 +462,7 @@ void pop2down()
         tty_print_region(POP2_Y, POP2_X, POP2_Y+POP2_H, POP2_X+POP2_W);
 }
 
-void pop2clear()
-{
+void pop2clear() {
 	int i, j;
 	char *pp;
 
@@ -483,8 +477,7 @@ void pop2clear()
         tty_print_region(POP2_Y, POP2_X, POP2_Y+POP2_H, POP2_X+POP2_W);
 }
 
-void clear_screen()
-{
+void clear_screen() {
 	int i;
 	volatile char *pp;
 
@@ -494,8 +487,7 @@ void clear_screen()
 	}
 }
 
-void adj_mem(void)
-{
+void adj_mem(void) {
 	int i;
 
 	v->selected_pages = 0;
@@ -538,8 +530,7 @@ void adj_mem(void)
 }
 
 /*
-void performance()
-{
+void performance() {
 	extern int l1_cache, l2_cache;
 	ulong speed;
 	int i;
@@ -569,13 +560,13 @@ void performance()
 	dprint(POP_Y+5, POP_X+24, speed, 6, 0);
 
 	// Determine memory speed.  To find the memory spped we use
-  // A block size that is 5x the sum of the L1 and L2 caches
+	// A block size that is 5x the sum of the L1 and L2 caches
         i = (l2_cache + l1_cache) * 5;
 
-  // Make sure that we have enough memory to do the test
-     if ((1 + (i * 2)) > (v->plim_upper << 2)) {
-             i = ((v->plim_upper <<2) - 1) / 2;
-     }
+	// Make sure that we have enough memory to do the test
+	if ((1 + (i * 2)) > (v->plim_upper << 2)) {
+		i = ((v->plim_upper <<2) - 1) / 2;
+	}
 
 
 	cprint(POP_Y+7, POP_X+1, "Memory:");

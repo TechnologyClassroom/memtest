@@ -38,244 +38,244 @@ void common_err( ulong *adr, ulong good, ulong bad, ulong xor, int type) {
 	add_dmi_err((ulong)adr);
 
 	switch(v->printmode) {
-		case PRINTMODE_SUMMARY:
-			/* Don't do anything for a parity error. */
-			if (type == 3) {
-				return;
-			}
+	case PRINTMODE_SUMMARY:
+		/* Don't do anything for a parity error. */
+		if (type == 3) {
+			return;
+		}
 
-			/* Address error */
-			if (type == 1) {
-				xor = good ^ bad;
-			}
+		/* Address error */
+		if (type == 1) {
+			xor = good ^ bad;
+		}
 
-			/* Ecc correctable errors */
-			if (type == 2) {
-				/* the bad value is the corrected flag */
-				if (bad) {
-					v->erri.cor_err++;
-				}
-				page = (ulong)adr;
-				offset = good;
-			} else {
-				page = page_of(adr);
-				offset = (ulong)adr & 0xFFF;
+		/* Ecc correctable errors */
+		if (type == 2) {
+			/* the bad value is the corrected flag */
+			if (bad) {
+				v->erri.cor_err++;
 			}
+			page = (ulong)adr;
+			offset = good;
+		} else {
+			page = page_of(adr);
+			offset = (ulong)adr & 0xFFF;
+		}
 
-			/* Calc upper and lower error addresses */
-			if (v->erri.low_addr.page > page) {
-				v->erri.low_addr.page = page;
-				v->erri.low_addr.offset = offset;
-				flag++;
-			} else if (v->erri.low_addr.page == page &&
-				v->erri.low_addr.offset > offset) {
-				v->erri.low_addr.offset = offset;
-				v->erri.high_addr.offset = offset;
-				flag++;
-			} else if (v->erri.high_addr.page < page) {
-				v->erri.high_addr.page = page;
-				flag++;
-			}
-			if (v->erri.high_addr.page == page &&
-				v->erri.high_addr.offset < offset) {
-				v->erri.high_addr.offset = offset;
-				flag++;
-			}
+		/* Calc upper and lower error addresses */
+		if (v->erri.low_addr.page > page) {
+			v->erri.low_addr.page = page;
+			v->erri.low_addr.offset = offset;
+			flag++;
+		} else if (v->erri.low_addr.page == page &&
+			v->erri.low_addr.offset > offset) {
+			v->erri.low_addr.offset = offset;
+			v->erri.high_addr.offset = offset;
+			flag++;
+		} else if (v->erri.high_addr.page < page) {
+			v->erri.high_addr.page = page;
+			flag++;
+		}
+		if (v->erri.high_addr.page == page &&
+			v->erri.high_addr.offset < offset) {
+			v->erri.high_addr.offset = offset;
+			flag++;
+		}
 
-			/* Calc bits in error */
-			for (i=0, n=0; i<32; i++) {
-				if (xor>>i & 1) {
-					n++;
-				}
+		/* Calc bits in error */
+		for (i=0, n=0; i<32; i++) {
+			if (xor>>i & 1) {
+				n++;
 			}
-			v->erri.tbits += n;
-			if (n > v->erri.max_bits) {
-				v->erri.max_bits = n;
-				flag++;
-			}
-			if (n < v->erri.min_bits) {
-				v->erri.min_bits = n;
-				flag++;
-			}
-			if (v->erri.ebits ^ xor) {
-				flag++;
-			}
-			v->erri.ebits |= xor;
+		}
+		v->erri.tbits += n;
+		if (n > v->erri.max_bits) {
+			v->erri.max_bits = n;
+			flag++;
+		}
+		if (n < v->erri.min_bits) {
+			v->erri.min_bits = n;
+			flag++;
+		}
+		if (v->erri.ebits ^ xor) {
+			flag++;
+		}
+		v->erri.ebits |= xor;
 
-		 	/* Calc max contig errors */
-			len = 1;
-			if ((ulong)adr == (ulong)v->erri.eadr+4 ||
-				(ulong)adr == (ulong)v->erri.eadr-4 ) {
-				len++;
-			}
-			if (len > v->erri.maxl) {
-				v->erri.maxl = len;
-				flag++;
-			}
-			v->erri.eadr = (ulong)adr;
+	 	/* Calc max contig errors */
+		len = 1;
+		if ((ulong)adr == (ulong)v->erri.eadr+4 ||
+			(ulong)adr == (ulong)v->erri.eadr-4 ) {
+			len++;
+		}
+		if (len > v->erri.maxl) {
+			v->erri.maxl = len;
+			flag++;
+		}
+		v->erri.eadr = (ulong)adr;
 
-			if (v->erri.hdr_flag == 0) {
-				clear_scroll();
-				cprint(LINE_HEADER+0, 1,  "Error Confidence Value:");
-				cprint(LINE_HEADER+1, 1,  "  Lowest Error Address:");
-				cprint(LINE_HEADER+2, 1,  " Highest Error Address:");
-				cprint(LINE_HEADER+3, 1,  "    Bits in Error Mask:");
-				cprint(LINE_HEADER+4, 1,  " Bits in Error - Total:");
-				cprint(LINE_HEADER+4, 29,  "Min:    Max:    Avg:");
-				cprint(LINE_HEADER+5, 1,  " Max Contiguous Errors:");
-				cprint(LINE_HEADER+6, 1,  "ECC Correctable Errors:");
-				cprint(LINE_HEADER+7, 1,  "Errors per Memory Slot:");
-				x = 24;
-				if (dmi_initialized) {
-					for (i=0; i < MAX_DMI_MEMDEVS;){
-						n = LINE_HEADER+7;
-						for (j=0; j<4; j++) {
-							if (dmi_err_cnts[i] >= 0) {
-								dprint(n, x, i, 2, 0);
-								cprint(n, x+2, ": 0");
-							}
-							i++;
-							n++;
-						}
-						x += 10;
-			  		}
-				}
-
-				cprint(LINE_HEADER+0, 64,   "Test  Errors");
-				v->erri.hdr_flag++;
-			}
-			if (flag) {
-				/* Calc bits in error */
-				for (i=0, n=0; i<32; i++) {
-					if (v->erri.ebits>>i & 1) {
-						n++;
-					}
-		  		}
-				page = v->erri.low_addr.page;
-				offset = v->erri.low_addr.offset;
-				mb = page >> 8;
-				hprint(LINE_HEADER+1, 25, page);
-				hprint2(LINE_HEADER+1, 33, offset, 3);
-				cprint(LINE_HEADER+1, 36, " -      . MB");
-				dprint(LINE_HEADER+1, 39, mb, 5, 0);
-				dprint(LINE_HEADER+1, 45, ((page & 0xFF)*10)/256, 1, 0);
-				page = v->erri.high_addr.page;
-				offset = v->erri.high_addr.offset;
-				mb = page >> 8;
-				hprint(LINE_HEADER+2, 25, page);
-				hprint2(LINE_HEADER+2, 33, offset, 3);
-				cprint(LINE_HEADER+2, 36, " -      . MB");
-				dprint(LINE_HEADER+2, 39, mb, 5, 0);
-				dprint(LINE_HEADER+2, 45, ((page & 0xFF)*10)/256, 1, 0);
-				hprint(LINE_HEADER+3, 25, v->erri.ebits);
-				dprint(LINE_HEADER+4, 25, n, 2, 1);
-				dprint(LINE_HEADER+4, 34, v->erri.min_bits, 2, 1);
-				dprint(LINE_HEADER+4, 42, v->erri.max_bits, 2, 1);
-				dprint(LINE_HEADER+4, 50, v->erri.tbits/v->ecount, 2, 1);
-				dprint(LINE_HEADER+5, 25, v->erri.maxl, 7, 1);
-				x = 28;
-				for ( i=0; i < MAX_DMI_MEMDEVS;){
+		if (v->erri.hdr_flag == 0) {
+			clear_scroll();
+			cprint(LINE_HEADER+0, 1,  "Error Confidence Value:");
+			cprint(LINE_HEADER+1, 1,  "  Lowest Error Address:");
+			cprint(LINE_HEADER+2, 1,  " Highest Error Address:");
+			cprint(LINE_HEADER+3, 1,  "    Bits in Error Mask:");
+			cprint(LINE_HEADER+4, 1,  " Bits in Error - Total:");
+			cprint(LINE_HEADER+4, 29,  "Min:    Max:    Avg:");
+			cprint(LINE_HEADER+5, 1,  " Max Contiguous Errors:");
+			cprint(LINE_HEADER+6, 1,  "ECC Correctable Errors:");
+			cprint(LINE_HEADER+7, 1,  "Errors per Memory Slot:");
+			x = 24;
+			if (dmi_initialized) {
+				for (i=0; i < MAX_DMI_MEMDEVS;){
 					n = LINE_HEADER+7;
 					for (j=0; j<4; j++) {
-						if (dmi_err_cnts[i] > 0) {
-							dprint (n, x, dmi_err_cnts[i], 7, 1);
+						if (dmi_err_cnts[i] >= 0) {
+							dprint(n, x, i, 2, 0);
+							cprint(n, x+2, ": 0");
 						}
 						i++;
 						n++;
 					}
 					x += 10;
+		  		}
+			}
+
+			cprint(LINE_HEADER+0, 64,   "Test  Errors");
+			v->erri.hdr_flag++;
+		}
+		if (flag) {
+			/* Calc bits in error */
+			for (i=0, n=0; i<32; i++) {
+				if (v->erri.ebits>>i & 1) {
+					n++;
 				}
+	  		}
+			page = v->erri.low_addr.page;
+			offset = v->erri.low_addr.offset;
+			mb = page >> 8;
+			hprint(LINE_HEADER+1, 25, page);
+			hprint2(LINE_HEADER+1, 33, offset, 3);
+			cprint(LINE_HEADER+1, 36, " -      . MB");
+			dprint(LINE_HEADER+1, 39, mb, 5, 0);
+			dprint(LINE_HEADER+1, 45, ((page & 0xFF)*10)/256, 1, 0);
+			page = v->erri.high_addr.page;
+			offset = v->erri.high_addr.offset;
+			mb = page >> 8;
+			hprint(LINE_HEADER+2, 25, page);
+			hprint2(LINE_HEADER+2, 33, offset, 3);
+			cprint(LINE_HEADER+2, 36, " -      . MB");
+			dprint(LINE_HEADER+2, 39, mb, 5, 0);
+			dprint(LINE_HEADER+2, 45, ((page & 0xFF)*10)/256, 1, 0);
+			hprint(LINE_HEADER+3, 25, v->erri.ebits);
+			dprint(LINE_HEADER+4, 25, n, 2, 1);
+			dprint(LINE_HEADER+4, 34, v->erri.min_bits, 2, 1);
+			dprint(LINE_HEADER+4, 42, v->erri.max_bits, 2, 1);
+			dprint(LINE_HEADER+4, 50, v->erri.tbits/v->ecount, 2, 1);
+			dprint(LINE_HEADER+5, 25, v->erri.maxl, 7, 1);
+			x = 28;
+			for ( i=0; i < MAX_DMI_MEMDEVS;) {
+				n = LINE_HEADER+7;
+				for (j=0; j<4; j++) {
+					if (dmi_err_cnts[i] > 0) {
+						dprint (n, x, dmi_err_cnts[i], 7, 1);
+					}
+					i++;
+					n++;
+				}
+				x += 10;
+			}
 
-		  		for (i=0; tseq[i].msg != NULL; i++) {
-					dprint(LINE_HEADER+1+i, 66, i, 2, 0);
-					dprint(LINE_HEADER+1+i, 68, tseq[i].errors, 8, 0);
-	  	  		}
-			}
-			if (v->erri.cor_err) {
-				dprint(LINE_HEADER+6, 25, v->erri.cor_err, 8, 1);
-			}
-			break;
+	  		for (i=0; tseq[i].msg != NULL; i++) {
+				dprint(LINE_HEADER+1+i, 66, i, 2, 0);
+				dprint(LINE_HEADER+1+i, 68, tseq[i].errors, 8, 0);
+	 	  	}
+		}
+		if (v->erri.cor_err) {
+			dprint(LINE_HEADER+6, 25, v->erri.cor_err, 8, 1);
+		}
+		break;
 
-		case PRINTMODE_ADDRESSES:
-			/* Don't display duplicate errors */
-			if ((ulong)adr == (ulong)v->erri.eadr &&
-				xor == v->erri.exor) {
-				return;
-			}
-			if (v->erri.hdr_flag == 0) {
-				clear_scroll();
-				cprint(LINE_HEADER, 0,
+	case PRINTMODE_ADDRESSES:
+		/* Don't display duplicate errors */
+		if ((ulong)adr == (ulong)v->erri.eadr &&
+			xor == v->erri.exor) {
+			return;
+		}
+		if (v->erri.hdr_flag == 0) {
+			clear_scroll();
+			cprint(LINE_HEADER, 0,
 "Tst  Pass   Failing Address          Good       Bad     Err-Bits  Count Chan");
 				cprint(LINE_HEADER+1, 0,
 "---  ----  -----------------------  --------  --------  --------  ----- ----");
 				v->erri.hdr_flag++;
-			}
-			/* Check for keyboard input */
-			check_input();
-			scroll();
+		}
+		/* Check for keyboard input */
+		check_input();
+		scroll();
 
-			if ( type == 2 || type == 3) {
-				page = (ulong)adr;
-				offset = good;
-			} else {
-				page = page_of(adr);
-				offset = ((unsigned long)adr) & 0xFFF;
-			}
-			mb = page >> 8;
-			dprint(v->msg_line, 0, v->test, 3, 0);
-			dprint(v->msg_line, 4, v->pass, 5, 0);
-			hprint(v->msg_line, 11, page);
-			hprint2(v->msg_line, 19, offset, 3);
-			cprint(v->msg_line, 22, " -      . MB");
-			dprint(v->msg_line, 25, mb, 5, 0);
-			dprint(v->msg_line, 31, ((page & 0xFF)*10)/256, 1, 0);
+		if ( type == 2 || type == 3) {
+			page = (ulong)adr;
+			offset = good;
+		} else {
+			page = page_of(adr);
+			offset = ((unsigned long)adr) & 0xFFF;
+		}
+		mb = page >> 8;
+		dprint(v->msg_line, 0, v->test, 3, 0);
+		dprint(v->msg_line, 4, v->pass, 5, 0);
+		hprint(v->msg_line, 11, page);
+		hprint2(v->msg_line, 19, offset, 3);
+		cprint(v->msg_line, 22, " -      . MB");
+		dprint(v->msg_line, 25, mb, 5, 0);
+		dprint(v->msg_line, 31, ((page & 0xFF)*10)/256, 1, 0);
 
-			if (type == 3) {
-				/* ECC error */
-				cprint(v->msg_line, 36,
-				bad?"corrected           ": "uncorrected         ");
-				hprint2(v->msg_line, 60, syn, 4);
-				cprint(v->msg_line, 68, "ECC");
-				dprint(v->msg_line, 74, chan, 2, 0);
-			} else if (type == 2) {
-				cprint(v->msg_line, 36, "Parity error detected                ");
-			} else {
-				hprint(v->msg_line, 36, good);
-				hprint(v->msg_line, 46, bad);
-				hprint(v->msg_line, 56, xor);
-				dprint(v->msg_line, 66, v->ecount, 5, 0);
-				v->erri.exor = xor;
-			}
-			v->erri.eadr = (ulong)adr;
-			print_err_counts();
-			break;
+		if (type == 3) {
+			/* ECC error */
+			cprint(v->msg_line, 36,
+			bad?"corrected           ": "uncorrected         ");
+			hprint2(v->msg_line, 60, syn, 4);
+			cprint(v->msg_line, 68, "ECC");
+			dprint(v->msg_line, 74, chan, 2, 0);
+		} else if (type == 2) {
+			cprint(v->msg_line, 36, "Parity error detected                ");
+		} else {
+			hprint(v->msg_line, 36, good);
+			hprint(v->msg_line, 46, bad);
+			hprint(v->msg_line, 56, xor);
+			dprint(v->msg_line, 66, v->ecount, 5, 0);
+			v->erri.exor = xor;
+		}
+		v->erri.eadr = (ulong)adr;
+		print_err_counts();
+		break;
 
-		case PRINTMODE_PATTERNS:
-			if (v->erri.hdr_flag == 0) {
-				clear_scroll();
-				v->erri.hdr_flag++;
-			}
-			/* Do not do badram patterns from test 0 or 5 */
-			if (v->test == 0 || v->test == 5) {
-				return;
-			}
-			/* Only do patterns for data errors */
-			if ( type != 0) {
-				return;
-			}
-			/* Process the address in the pattern administration */
-			patnchg=insertaddress ((ulong) adr);
-			if (patnchg) {
-				printpatn();
-			}
-			break;
+	case PRINTMODE_PATTERNS:
+		if (v->erri.hdr_flag == 0) {
+			clear_scroll();
+			v->erri.hdr_flag++;
+		}
+		/* Do not do badram patterns from test 0 or 5 */
+		if (v->test == 0 || v->test == 5) {
+			return;
+		}
+		/* Only do patterns for data errors */
+		if ( type != 0) {
+			return;
+		}
+		/* Process the address in the pattern administration */
+		patnchg=insertaddress ((ulong) adr);
+		if (patnchg) {
+			printpatn();
+		}
+		break;
 
-		case PRINTMODE_NONE:
-			if (v->erri.hdr_flag == 0) {
-				clear_scroll();
-				v->erri.hdr_flag++;
-			}
-			break;
+	case PRINTMODE_NONE:
+		if (v->erri.hdr_flag == 0) {
+			clear_scroll();
+			v->erri.hdr_flag++;
+		}
+		break;
 	}
 }
 
@@ -399,7 +399,6 @@ void printpatn (void) {
 	x=7;
 
 	for (idx = 0; idx < v->numpatn; idx++) {
-
 		if (x > 80-22) {
 			scroll();
 			x=7;
