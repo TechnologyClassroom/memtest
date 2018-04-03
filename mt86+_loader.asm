@@ -46,10 +46,10 @@ exeh:	db "MZ"
 	; loaded part begins here (set CS so that IP is 100h here)
 
 start:	; entry point	; if you use obj + linker, use "..start:"
-  mov    ah, 01h
-  mov    bh, 00h
-  mov   cx, 2000h
-  int    10h
+	mov    ah, 01h
+	mov    bh, 00h
+	mov   cx, 2000h
+	int    10h
 
 	mov ax,cs	; ***
 	mov ds,ax	; ***
@@ -228,4 +228,3 @@ trying	db "Now trying to start Memtest86...",13,10
 
 	align 16
 buffer:	; a label pointing to where in the file memtest.bin will be.
-

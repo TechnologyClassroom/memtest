@@ -81,9 +81,9 @@ struct lb_hwrpb {
 };
 
 struct lb_forward {
- uint32_t tag;
- uint32_t size;
- uint64_t forward;
+	uint32_t tag;
+	uint32_t size;
+	uint64_t forward;
 };
 
 #endif /* LINUXBIOS_TABLES_H */

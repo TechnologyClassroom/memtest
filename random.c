@@ -14,18 +14,18 @@ static unsigned int SEED_Y = 362436069;
 
 
 unsigned int rand ()
-   {
-   static unsigned int a = 18000, b = 30903;
+{
+	static unsigned int a = 18000, b = 30903;
 
-   SEED_X = a*(SEED_X&65535) + (SEED_X>>16);
-   SEED_Y = b*(SEED_Y&65535) + (SEED_Y>>16);
+	SEED_X = a*(SEED_X&65535) + (SEED_X>>16);
+	SEED_Y = b*(SEED_Y&65535) + (SEED_Y>>16);
 
-   return ((SEED_X<<16) + (SEED_Y&65535));
-   }
+	return ((SEED_X<<16) + (SEED_Y&65535));
+}
 
 
 void rand_seed( unsigned int seed1, unsigned int seed2 )
-   {
-   if (seed1) SEED_X = seed1;   /* use default seeds if parameter is 0 */
-   if (seed2) SEED_Y = seed2;
-   }
+{
+	if (seed1) SEED_X = seed1;   /* use default seeds if parameter is 0 */
+	if (seed2) SEED_Y = seed2;
+}

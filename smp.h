@@ -13,27 +13,27 @@
 #define FPSignature ('_' | 'M' << 8 | 'P' << 16 | '_' << 24)
 
 typedef struct {
-   uint32_t signature;   // "_MP_"
-   uint32_t phys_addr;
-   uint8_t  length;
-   uint8_t  spec_rev;
-   uint8_t  checksum;
-   uint8_t  feature[5];
+	uint32_t signature;   // "_MP_"
+	uint32_t phys_addr;
+	uint8_t  length;
+	uint8_t  spec_rev;
+	uint8_t  checksum;
+	uint8_t  feature[5];
 } floating_pointer_struct_t;
 
 #define MPCSignature ('P' | 'C' << 8 | 'M' << 16 | 'P' << 24)
 typedef struct {
-   uint32_t signature;   // "PCMP"
-   uint16_t length;
-   uint8_t  spec_rev;
-   uint8_t  checksum;
-   char   oem[8];
-   char   productid[12];
-   uint32_t oem_ptr;
-   uint16_t oem_size;
-   uint16_t oem_count;
-   uint32_t lapic_addr;
-   uint32_t reserved;
+	uint32_t signature;   // "PCMP"
+	uint16_t length;
+	uint8_t  spec_rev;
+	uint8_t  checksum;
+	char   oem[8];
+	char   productid[12];
+	uint32_t oem_ptr;
+	uint16_t oem_size;
+	uint16_t oem_count;
+	uint32_t lapic_addr;
+	uint32_t reserved;
 } mp_config_table_header_t;
 
 /* Followed by entries */
@@ -45,25 +45,25 @@ typedef struct {
 #define MP_LINTSRC      4
 
 typedef struct {
-   uint8_t type;          /* MP_PROCESSOR */
-   uint8_t apic_id;       /* Local APIC number */
-   uint8_t apic_ver;      /* Its versions */
-   uint8_t cpu_flag;
+	uint8_t type;          /* MP_PROCESSOR */
+	uint8_t apic_id;       /* Local APIC number */
+	uint8_t apic_ver;      /* Its versions */
+	uint8_t cpu_flag;
 #define CPU_ENABLED             1       /* Processor is available */
 #define CPU_BOOTPROCESSOR       2       /* Processor is the BP */
-   uint32_t cpu_signature;
+	uint32_t cpu_signature;
 #define CPU_STEPPING_MASK 0x0F
 #define CPU_MODEL_MASK  0xF0
 #define CPU_FAMILY_MASK 0xF00
-   uint32_t featureflag;  /* CPUID feature value */
-   uint32_t reserved[2];
+	uint32_t featureflag;  /* CPUID feature value */
+	uint32_t reserved[2];
 } mp_processor_entry_t;
 
 
 typedef struct {
-   uint8_t type;   // has value MP_BUS
-   uint8_t busid;
-   char  bustype[6];
+	uint8_t type;   // has value MP_BUS
+	uint8_t busid;
+	char  bustype[6];
 } mp_bus_entry_t;
 
 #define BUSTYPE_EISA    "EISA"
@@ -77,23 +77,23 @@ typedef struct {
 /* We don't understand the others */
 
 typedef struct {
-   uint8_t  type;   // set to MP_IOAPIC
-   uint8_t  apicid;
-   uint8_t  apicver;
-   uint8_t  flags;
+	uint8_t  type;   // set to MP_IOAPIC
+	uint8_t  apicid;
+	uint8_t  apicver;
+	uint8_t  flags;
 #define MPC_APIC_USABLE         0x01
-   uint32_t apicaddr;
+	uint32_t apicaddr;
 } mp_io_apic_entry_t;
 
 
 typedef struct {
-   uint8_t  type;
-   uint8_t  irqtype;
-   uint16_t irqflag;
-   uint8_t  srcbus;
-   uint8_t  srcbusirq;
-   uint8_t  dstapic;
-   uint8_t  dstirq;
+	uint8_t  type;
+	uint8_t  irqtype;
+	uint16_t irqflag;
+	uint8_t  srcbus;
+	uint8_t  srcbusirq;
+	uint8_t  dstapic;
+	uint8_t  dstirq;
 } mp_interrupt_entry_t;
 
 #define MP_INT_VECTORED         0
@@ -107,14 +107,14 @@ typedef struct {
 
 
 typedef struct {
-   uint8_t  type;
-   uint8_t  irqtype;
-   uint16_t irqflag;
-   uint8_t  srcbusid;
-   uint8_t  srcbusirq;
-   uint8_t  destapic;
+	uint8_t  type;
+	uint8_t  irqtype;
+	uint16_t irqflag;
+	uint8_t  srcbusid;
+	uint8_t  srcbusirq;
+	uint8_t  destapic;
 #define MP_APIC_ALL     0xFF
-   uint8_t  destapiclint;
+	uint8_t  destapiclint;
 } mp_local_interrupt_entry_t;
 
 /* APIC definitions */
@@ -181,22 +181,22 @@ void smp_ap_booted(unsigned cpu_num);
 static inline void
 __GET_CPUID(int ax, uint32_t *regs)
 {
-   __asm__ __volatile__("\t"
-   	/* save ebx in case -fPIC is being used */
-      "push %%ebx; cpuid; mov %%ebx, %%edi; pop %%ebx"
-      : "=a" (regs[0]), "=D" (regs[1]), "=c" (regs[2]), "=d" (regs[3])
-      : "a" (ax)
-      : "memory"
-   );
+	__asm__ __volatile__("\t"
+		/* save ebx in case -fPIC is being used */
+		"push %%ebx; cpuid; mov %%ebx, %%edi; pop %%ebx"
+		: "=a" (regs[0]), "=D" (regs[1]), "=c" (regs[2]), "=d" (regs[3])
+		: "a" (ax)
+		: "memory"
+	);
 }
 
 #define GET_CPUID(_ax,_bx,_cx,_dx) { \
-   uint32_t regs[4];                   \
-   __GET_CPUID(_ax,regs);            \
-   _ax = regs[0];                    \
-   _bx = regs[1];                    \
-   _cx = regs[2];                    \
-   _dx = regs[3];                    \
+	uint32_t regs[4];                 \
+	__GET_CPUID(_ax,regs);            \
+	_ax = regs[0];                    \
+	_bx = regs[1];                    \
+	_cx = regs[2];                    \
+	_dx = regs[3];                    \
 }
 
 /*
@@ -207,58 +207,58 @@ __GET_CPUID(int ax, uint32_t *regs)
 static inline uint64_t
 RDTSC(void)
 {
-   uint64_t tim;
+	uint64_t tim;
 
-   __asm__ __volatile__(
-      "rdtsc"
-      : "=A" (tim)
-   );
+	__asm__ __volatile__(
+		"rdtsc"
+		: "=A" (tim)
+	);
 
-   return tim;
+	return tim;
 }
 
 static inline uint64_t __GET_MSR(int cx)
 {
-   uint64_t msr;
+	uint64_t msr;
 
-   __asm__ __volatile__(
-      "rdmsr"
-      : "=A" (msr)
-      : "c" (cx)
-   );
+	__asm__ __volatile__(
+		"rdmsr"
+		: "=A" (msr)
+		: "c" (cx)
+	);
 
-   return msr;
+	return msr;
 }
 
-#define __GCC_OUT(s, s2, port, val) do { \
-   __asm__(                              \
-      "out" #s " %" #s2 "1, %w0"         \
-      :                                  \
-      : "Nd" (port), "a" (val)           \
-   );                                    \
+#define __GCC_OUT(s, s2, port, val) do {           \
+	__asm__(                                   \
+		"out" #s " %" #s2 "1, %w0"         \
+		:                                  \
+		: "Nd" (port), "a" (val)           \
+	);                                         \
 } while (0)
 #define OUTB(port, val) __GCC_OUT(b, b, port, val)
 
 typedef struct {
-        unsigned int slock;
+	unsigned int slock;
 } spinlock_t;
 
 static inline void spin_lock(volatile spinlock_t *lock)
 {
-        asm volatile("\n1:\t"
-                     " ; lock;decb %0\n\t"
-                     "jns 3f\n"
-                     "2:\t"
-                     "rep;nop\n\t"
-                     "cmpb $0,%0\n\t"
-                     "jle 2b\n\t"
-                     "jmp 1b\n"
-                     "3:\n\t"
-                     : "+m" (lock->slock) : : "memory");
+	asm volatile("\n1:\t"
+		" ; lock;decb %0\n\t"
+		"jns 3f\n"
+		"2:\t"
+		"rep;nop\n\t"
+		"cmpb $0,%0\n\t"
+		"jle 2b\n\t"
+		"jmp 1b\n"
+		"3:\n\t"
+		: "+m" (lock->slock) : : "memory");
 }
 static inline void spin_unlock(volatile spinlock_t *lock)
 {
-        asm volatile("movb $1,%0" : "+m" (lock->slock) :: "memory");
+	asm volatile("movb $1,%0" : "+m" (lock->slock) :: "memory");
 }
 
 

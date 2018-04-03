@@ -468,8 +468,7 @@ void do_test(void)
 			/* We don't need the high copy for this test */
 			run_at(LOW_TEST_ADR);
 		}
-	}
-	else {
+	} else {
 		/* We have run this test in all of the windows
 		 * advance to the next test.
 		 */
@@ -540,9 +539,9 @@ void find_ticks_for_pass(void)
 
 	/* Compute the number of SPINSZ memory segments in one pass */
 	chunks = 0;
-	for(j = 0; j < sizeof(windows)/sizeof(windows[0]); j++) {
+	for (j = 0; j < sizeof(windows)/sizeof(windows[0]); j++) {
 		compute_segments(j);
-		for(i = 0; i < segs; i++) {
+		for (i = 0; i < segs; i++) {
 			unsigned long len;
 			len = v->map[i].end - v->map[i].start;
 			chunks += (len + SPINSZ -1)/SPINSZ;
@@ -613,7 +612,6 @@ static int find_ticks_for_test(int ch, int test)
 		ticks = 4 * 40 * c;
 		break;
 	}
-
 	return ticks*ch;
 }
 

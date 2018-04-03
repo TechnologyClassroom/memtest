@@ -65,7 +65,7 @@ void addr_tst1()
 				*pt = p1;
 				if ((uintptr_t)(bad = *p) != (uintptr_t)~p1) {
 					ad_err1((ulong *)p, (ulong *)mask,
-					        bad, ~p1);
+						bad, ~p1);
 					i = 1000;
 				}
 				mask = mask << 1;

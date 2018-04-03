@@ -27,9 +27,9 @@
 #define E820_NVS        4
 
 struct e820entry {
-        unsigned long long addr;        /* start of memory segment */
-        unsigned long long size;        /* size of memory segment */
-        unsigned long type;             /* type of memory segment */
+	unsigned long long addr;        /* start of memory segment */
+	unsigned long long size;        /* size of memory segment */
+	unsigned long type;             /* type of memory segment */
 };
 
 struct mem_info_t {
@@ -210,24 +210,24 @@ ulong correct_tsc(ulong el_org);
 #define BADRAM_MAXPATNS 10
 
 struct pair {
-       ulong adr;
-       ulong mask;
+	ulong adr;
+	ulong mask;
 };
 
 
 static inline void cache_off(void)
 {
-        asm(
+	asm(
 		"push %eax\n\t"
 		"movl %cr0,%eax\n\t"
-                "orl $0x40000000,%eax\n\t"  /* Set CD */
-                "movl %eax,%cr0\n\t"
+		"orl $0x40000000,%eax\n\t"  /* Set CD */
+		"movl %eax,%cr0\n\t"
 		"wbinvd\n\t"
 		"pop  %eax\n\t");
 }
 static inline void cache_on(void)
 {
-        asm(
+	asm(
 		"push %eax\n\t"
 		"movl %cr0,%eax\n\t"
 		"andl $0x9fffffff,%eax\n\t" /* Clear CD and NW */
@@ -237,7 +237,7 @@ static inline void cache_on(void)
 
 static inline void reboot(void)
 {
-        asm(
+	asm(
 		"movl %cr0,%eax\n\t"
 		"andl  $0x00000011,%eax\n\t"
 		"orl   $0x60000000,%eax\n\t"
@@ -321,8 +321,8 @@ struct err_info {
 	short         max_bits;
 	unsigned long maxl;
 	unsigned long eadr;
-        unsigned long exor;
-        unsigned long cor_err;
+	unsigned long exor;
+	unsigned long cor_err;
 	short         hdr_flag;
 };
 

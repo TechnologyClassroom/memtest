@@ -611,14 +611,14 @@ void set_cache(int val) {
 		return;
 	}
 	switch(val) {
-		case 0:
-			cache_off();
-			cprint(LINE_INFO, COL_CACHE, "off");
-			break;
-		case 1:
-			cache_on();
-			cprint(LINE_INFO, COL_CACHE, " on");
-			break;
+	case 0:
+		cache_off();
+		cprint(LINE_INFO, COL_CACHE, "off");
+		break;
+	case 1:
+		cache_on();
+		cprint(LINE_INFO, COL_CACHE, " on");
+		break;
 	}
 }
 
@@ -650,32 +650,32 @@ void check_input(void) {
 
 	if ((c = get_key())) {
 		switch(c & 0x7f) {
-			case 1:
-				/* "ESC" key was pressed, bail out.  */
-				cprint(LINE_RANGE, COL_MID+23, "Halting... ");
+		case 1:
+			/* "ESC" key was pressed, bail out.  */
+			cprint(LINE_RANGE, COL_MID+23, "Halting... ");
 
-				/* tell the BIOS to do a warm start */
-				*((unsigned short *)0x472) = 0x1234;
-				outb(0xfe,0x64);
-				break;
-			case 46:
-				/* c - Configure */
-				get_config();
-				break;
-			case 28:
-				/* CR - clear scroll lock */
-				slock = 0;
-				footer();
-				break;
-			case 57:
-				/* SP - set scroll lock */
-				slock = 1;
-				footer();
-				break;
-			case 0x26:
-				/* ^L/L - redraw the display */
-				tty_print_screen();
-				break;
+			/* tell the BIOS to do a warm start */
+			*((unsigned short *)0x472) = 0x1234;
+			outb(0xfe,0x64);
+			break;
+		case 46:
+			/* c - Configure */
+			get_config();
+			break;
+		case 28:
+			/* CR - clear scroll lock */
+			slock = 0;
+			footer();
+			break;
+		case 57:
+			/* SP - set scroll lock */
+			slock = 1;
+			footer();
+			break;
+		case 0x26:
+			/* ^L/L - redraw the display */
+			tty_print_screen();
+			break;
 		}
 	}
 }
@@ -711,48 +711,48 @@ ulong getval(int x, int y, int result_shift) {
 		/* Read a new character and process it */
 		c = get_key();
 		switch(c) {
-			case 0x26: /* ^L/L - redraw the display */
-				tty_print_screen();
-				break;
-			case 0x1c: /* CR */
-				/* If something has been entered we are done */
-				if(n) done = 1;
-				break;
-			case 0x19: /* p */ buf[n] = 'p'; break;
-			case 0x22: /* g */ buf[n] = 'g'; break;
-			case 0x32: /* m */ buf[n] = 'm'; break;
-			case 0x25: /* k */ buf[n] = 'k'; break;
-			case 0x2d: /* x */
-				/* Only allow 'x' after an initial 0 */
-				if (n == 1 && (buf[0] == '0')) {
-					buf[n] = 'x';
-				}
-				break;
-			case 0x0e: /* BS */
-				if (n > 0) {
-					n -= 1;
-					buf[n] = ' ';
-				}
-				break;
-			/* Don't allow entering a number not in our current base */
-			case 0x0B: if (base >= 1) buf[n] = '0'; break;
-			case 0x02: if (base >= 2) buf[n] = '1'; break;
-			case 0x03: if (base >= 3) buf[n] = '2'; break;
-			case 0x04: if (base >= 4) buf[n] = '3'; break;
-			case 0x05: if (base >= 5) buf[n] = '4'; break;
-			case 0x06: if (base >= 6) buf[n] = '5'; break;
-			case 0x07: if (base >= 7) buf[n] = '6'; break;
-			case 0x08: if (base >= 8) buf[n] = '7'; break;
-			case 0x09: if (base >= 9) buf[n] = '8'; break;
-			case 0x0A: if (base >= 10) buf[n] = '9'; break;
-			case 0x1e: if (base >= 11) buf[n] = 'a'; break;
-			case 0x30: if (base >= 12) buf[n] = 'b'; break;
-			case 0x2e: if (base >= 13) buf[n] = 'c'; break;
-			case 0x20: if (base >= 14) buf[n] = 'd'; break;
-			case 0x12: if (base >= 15) buf[n] = 'e'; break;
-			case 0x21: if (base >= 16) buf[n] = 'f'; break;
-			default:
-				break;
+		case 0x26: /* ^L/L - redraw the display */
+			tty_print_screen();
+			break;
+		case 0x1c: /* CR */
+			/* If something has been entered we are done */
+			if(n) done = 1;
+			break;
+		case 0x19: /* p */ buf[n] = 'p'; break;
+		case 0x22: /* g */ buf[n] = 'g'; break;
+		case 0x32: /* m */ buf[n] = 'm'; break;
+		case 0x25: /* k */ buf[n] = 'k'; break;
+		case 0x2d: /* x */
+			/* Only allow 'x' after an initial 0 */
+			if (n == 1 && (buf[0] == '0')) {
+				buf[n] = 'x';
+			}
+			break;
+		case 0x0e: /* BS */
+			if (n > 0) {
+				n -= 1;
+				buf[n] = ' ';
+			}
+			break;
+		/* Don't allow entering a number not in our current base */
+		case 0x0B: if (base >= 1) buf[n] = '0'; break;
+		case 0x02: if (base >= 2) buf[n] = '1'; break;
+		case 0x03: if (base >= 3) buf[n] = '2'; break;
+		case 0x04: if (base >= 4) buf[n] = '3'; break;
+		case 0x05: if (base >= 5) buf[n] = '4'; break;
+		case 0x06: if (base >= 6) buf[n] = '5'; break;
+		case 0x07: if (base >= 7) buf[n] = '6'; break;
+		case 0x08: if (base >= 8) buf[n] = '7'; break;
+		case 0x09: if (base >= 9) buf[n] = '8'; break;
+		case 0x0A: if (base >= 10) buf[n] = '9'; break;
+		case 0x1e: if (base >= 11) buf[n] = 'a'; break;
+		case 0x30: if (base >= 12) buf[n] = 'b'; break;
+		case 0x2e: if (base >= 13) buf[n] = 'c'; break;
+		case 0x20: if (base >= 14) buf[n] = 'd'; break;
+		case 0x12: if (base >= 15) buf[n] = 'e'; break;
+		case 0x21: if (base >= 16) buf[n] = 'f'; break;
+		default:
+			break;
 		}
 		/* Don't allow anything to be entered after a suffix */
 		if (n > 0 && (
@@ -883,146 +883,146 @@ void serial_echo_print(const char *p) {
 struct ascii_map_str ser_map[] =
 /*ascii keycode     ascii  keycode*/
 {
-  /* Special cases come first so I can leave
-   * their "normal" mapping in the table,
-   * without it being activated.
-   */
-  {  27,   0x01}, /* ^[/ESC -> ESC  */
-  { 127,   0x0e}, /*    DEL -> BS   */
-  {   8,   0x0e}, /* ^H/BS  -> BS   */
-  {  10,   0x1c}, /* ^L/NL  -> CR   */
-  {  13,   0x1c}, /* ^M/CR  -> CR   */
-  {   9,   0x0f}, /* ^I/TAB -> TAB  */
-  {  19,   0x39}, /* ^S     -> SP   */
-  {  17,     28}, /* ^Q     -> CR   */
+	/* Special cases come first so I can leave
+	 * their "normal" mapping in the table,
+	 * without it being activated.
+	 */
+	{  27,   0x01}, /* ^[/ESC -> ESC  */
+	{ 127,   0x0e}, /*    DEL -> BS   */
+	{   8,   0x0e}, /* ^H/BS  -> BS   */
+	{  10,   0x1c}, /* ^L/NL  -> CR   */
+	{  13,   0x1c}, /* ^M/CR  -> CR   */
+	{   9,   0x0f}, /* ^I/TAB -> TAB  */
+	{  19,   0x39}, /* ^S     -> SP   */
+	{  17,     28}, /* ^Q     -> CR   */
 
-  { ' ',   0x39}, /*     SP -> SP   */
-  { 'a',   0x1e},
-  { 'A',   0x1e},
-  {   1,   0x1e}, /* ^A      -> A */
-  { 'b',   0x30},
-  { 'B',   0x30},
-  {   2,   0x30}, /* ^B      -> B */
-  { 'c',   0x2e},
-  { 'C',   0x2e},
-  {   3,   0x2e}, /* ^C      -> C */
-  { 'd',   0x20},
-  { 'D',   0x20},
-  {   4,   0x20}, /* ^D      -> D */
-  { 'e',   0x12},
-  { 'E',   0x12},
-  {   5,   0x12}, /* ^E      -> E */
-  { 'f',   0x21},
-  { 'F',   0x21},
-  {   6,   0x21}, /* ^F      -> F */
-  { 'g',   0x22},
-  { 'G',   0x22},
-  {   7,   0x22}, /* ^G      -> G */
-  { 'h',   0x23},
-  { 'H',   0x23},
-  {   8,   0x23}, /* ^H      -> H */
-  { 'i',   0x17},
-  { 'I',   0x17},
-  {   9,   0x17}, /* ^I      -> I */
-  { 'j',   0x24},
-  { 'J',   0x24},
-  {  10,   0x24}, /* ^J      -> J */
-  { 'k',   0x25},
-  { 'K',   0x25},
-  {  11,   0x25}, /* ^K      -> K */
-  { 'l',   0x26},
-  { 'L',   0x26},
-  {  12,   0x26}, /* ^L      -> L */
-  { 'm',   0x32},
-  { 'M',   0x32},
-  {  13,   0x32}, /* ^M      -> M */
-  { 'n',   0x31},
-  { 'N',   0x31},
-  {  14,   0x31}, /* ^N      -> N */
-  { 'o',   0x18},
-  { 'O',   0x18},
-  {  15,   0x18}, /* ^O      -> O */
-  { 'p',   0x19},
-  { 'P',   0x19},
-  {  16,   0x19}, /* ^P      -> P */
-  { 'q',   0x10},
-  { 'Q',   0x10},
-  {  17,   0x10}, /* ^Q      -> Q */
-  { 'r',   0x13},
-  { 'R',   0x13},
-  {  18,   0x13}, /* ^R      -> R */
-  { 's',   0x1f},
-  { 'S',   0x1f},
-  {  19,   0x1f}, /* ^S      -> S */
-  { 't',   0x14},
-  { 'T',   0x14},
-  {  20,   0x14}, /* ^T      -> T */
-  { 'u',   0x16},
-  { 'U',   0x16},
-  {  21,   0x16}, /* ^U      -> U */
-  { 'v',   0x2f},
-  { 'V',   0x2f},
-  {  22,   0x2f}, /* ^V      -> V */
-  { 'w',   0x11},
-  { 'W',   0x11},
-  {  23,   0x11}, /* ^W      -> W */
-  { 'x',   0x2d},
-  { 'X',   0x2d},
-  {  24,   0x2d}, /* ^X      -> X */
-  { 'y',   0x15},
-  { 'Y',   0x15},
-  {  25,   0x15}, /* ^Y      -> Y */
-  { 'z',   0x2c},
-  { 'Z',   0x2c},
-  {  26,   0x2c}, /* ^Z      -> Z */
-  { '-',   0x0c},
-  { '_',   0x0c},
-  {  31,   0x0c}, /* ^_      -> _ */
-  { '=',   0x0c},
-  { '+',   0x0c},
-  { '[',   0x1a},
-  { '{',   0x1a},
-  {  27,   0x1a}, /* ^[      -> [ */
-  { ']',   0x1b},
-  { '}',   0x1b},
-  {  29,   0x1b}, /* ^]      -> ] */
-  { ';',   0x27},
-  { ':',   0x27},
-  { '\'',  0x28},
-  { '"',   0x28},
-  { '`',   0x29},
-  { '~',   0x29},
-  { '\\',  0x2b},
-  { '|',   0x2b},
-  {  28,   0x2b}, /* ^\      -> \ */
-  { ',',   0x33},
-  { '<',   0x33},
-  { '.',   0x34},
-  { '>',   0x34},
-  { '/',   0x35},
-  { '?',   0x35},
-  { '1',   0x02},
-  { '!',   0x02},
-  { '2',   0x03},
-  { '@',   0x03},
-  { '3',   0x04},
-  { '#',   0x04},
-  { '4',   0x05},
-  { '$',   0x05},
-  { '5',   0x06},
-  { '%',   0x06},
-  { '6',   0x07},
-  { '^',   0x07},
-  {  30,   0x07}, /* ^^      -> 6 */
-  { '7',   0x08},
-  { '&',   0x08},
-  { '8',   0x09},
-  { '*',   0x09},
-  { '9',   0x0a},
-  { '(',   0x0a},
-  { '0',   0x0b},
-  { ')',   0x0b},
-  {   0,      0}
+	{ ' ',   0x39}, /*     SP -> SP   */
+	{ 'a',   0x1e},
+	{ 'A',   0x1e},
+	{   1,   0x1e}, /* ^A      -> A */
+	{ 'b',   0x30},
+	{ 'B',   0x30},
+	{   2,   0x30}, /* ^B      -> B */
+	{ 'c',   0x2e},
+	{ 'C',   0x2e},
+	{   3,   0x2e}, /* ^C      -> C */
+	{ 'd',   0x20},
+	{ 'D',   0x20},
+	{   4,   0x20}, /* ^D      -> D */
+	{ 'e',   0x12},
+	{ 'E',   0x12},
+	{   5,   0x12}, /* ^E      -> E */
+	{ 'f',   0x21},
+	{ 'F',   0x21},
+	{   6,   0x21}, /* ^F      -> F */
+	{ 'g',   0x22},
+	{ 'G',   0x22},
+	{   7,   0x22}, /* ^G      -> G */
+	{ 'h',   0x23},
+	{ 'H',   0x23},
+	{   8,   0x23}, /* ^H      -> H */
+	{ 'i',   0x17},
+	{ 'I',   0x17},
+	{   9,   0x17}, /* ^I      -> I */
+	{ 'j',   0x24},
+	{ 'J',   0x24},
+	{  10,   0x24}, /* ^J      -> J */
+	{ 'k',   0x25},
+	{ 'K',   0x25},
+	{  11,   0x25}, /* ^K      -> K */
+	{ 'l',   0x26},
+	{ 'L',   0x26},
+	{  12,   0x26}, /* ^L      -> L */
+	{ 'm',   0x32},
+	{ 'M',   0x32},
+	{  13,   0x32}, /* ^M      -> M */
+	{ 'n',   0x31},
+	{ 'N',   0x31},
+	{  14,   0x31}, /* ^N      -> N */
+	{ 'o',   0x18},
+	{ 'O',   0x18},
+	{  15,   0x18}, /* ^O      -> O */
+	{ 'p',   0x19},
+	{ 'P',   0x19},
+	{  16,   0x19}, /* ^P      -> P */
+	{ 'q',   0x10},
+	{ 'Q',   0x10},
+	{  17,   0x10}, /* ^Q      -> Q */
+	{ 'r',   0x13},
+	{ 'R',   0x13},
+	{  18,   0x13}, /* ^R      -> R */
+	{ 's',   0x1f},
+	{ 'S',   0x1f},
+	{  19,   0x1f}, /* ^S      -> S */
+	{ 't',   0x14},
+	{ 'T',   0x14},
+	{  20,   0x14}, /* ^T      -> T */
+	{ 'u',   0x16},
+	{ 'U',   0x16},
+	{  21,   0x16}, /* ^U      -> U */
+	{ 'v',   0x2f},
+	{ 'V',   0x2f},
+	{  22,   0x2f}, /* ^V      -> V */
+	{ 'w',   0x11},
+	{ 'W',   0x11},
+	{  23,   0x11}, /* ^W      -> W */
+	{ 'x',   0x2d},
+	{ 'X',   0x2d},
+	{  24,   0x2d}, /* ^X      -> X */
+	{ 'y',   0x15},
+	{ 'Y',   0x15},
+	{  25,   0x15}, /* ^Y      -> Y */
+	{ 'z',   0x2c},
+	{ 'Z',   0x2c},
+	{  26,   0x2c}, /* ^Z      -> Z */
+	{ '-',   0x0c},
+	{ '_',   0x0c},
+	{  31,   0x0c}, /* ^_      -> _ */
+	{ '=',   0x0c},
+	{ '+',   0x0c},
+	{ '[',   0x1a},
+	{ '{',   0x1a},
+	{  27,   0x1a}, /* ^[      -> [ */
+	{ ']',   0x1b},
+	{ '}',   0x1b},
+	{  29,   0x1b}, /* ^]      -> ] */
+	{ ';',   0x27},
+	{ ':',   0x27},
+	{ '\'',  0x28},
+	{ '"',   0x28},
+	{ '`',   0x29},
+	{ '~',   0x29},
+	{ '\\',  0x2b},
+	{ '|',   0x2b},
+	{  28,   0x2b}, /* ^\      -> \ */
+	{ ',',   0x33},
+	{ '<',   0x33},
+	{ '.',   0x34},
+	{ '>',   0x34},
+	{ '/',   0x35},
+	{ '?',   0x35},
+	{ '1',   0x02},
+	{ '!',   0x02},
+	{ '2',   0x03},
+	{ '@',   0x03},
+	{ '3',   0x04},
+	{ '#',   0x04},
+	{ '4',   0x05},
+	{ '$',   0x05},
+	{ '5',   0x06},
+	{ '%',   0x06},
+	{ '6',   0x07},
+	{ '^',   0x07},
+	{  30,   0x07}, /* ^^      -> 6 */
+	{ '7',   0x08},
+	{ '&',   0x08},
+	{ '8',   0x09},
+	{ '*',   0x09},
+	{ '9',   0x0a},
+	{ '(',   0x0a},
+	{ '0',   0x0b},
+	{ ')',   0x0b},
+	{   0,      0}
 };
 
 /*
@@ -1115,18 +1115,18 @@ void serial_console_setup(char *param) {
 		goto save_baud_rate;  /* no more options given */
 
 	switch (toupper(*end)) {
-		case 'N':
-			parity = 0;
-			break;
-		case 'O':
-			parity = UART_LCR_PARITY;
-			break;
-		case 'E':
-			parity = UART_LCR_PARITY | UART_LCR_EPAR;
-			break;
-		default:
-			/* Unknown parity */
-			return;
+	case 'N':
+		parity = 0;
+		break;
+	case 'O':
+		parity = UART_LCR_PARITY;
+		break;
+	case 'E':
+		parity = UART_LCR_PARITY | UART_LCR_EPAR;
+		break;
+	default:
+		/* Unknown parity */
+		return;
 	}
 
 	end++;
@@ -1145,11 +1145,11 @@ void serial_console_setup(char *param) {
 		return;  /* garbage at the end */
 
 	serial_bits = bits;
- save_parity:
+	save_parity:
 	serial_parity = parity;
- save_baud_rate:
+	save_baud_rate:
 	serial_baud_rate = (int) baud_rate;
- save_tty:
+	save_tty:
 	serial_tty = (short) tty;
 	serial_cons = 1;
 }

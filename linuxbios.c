@@ -25,7 +25,6 @@ static unsigned long ip_compute_csum(void *addr, unsigned long length)
 			sum -= 0xFFFF;
 		length -= 1;
 		addr = ptr +1;
-
 	}
 	len = length >> 1;
 	ptr = addr;
@@ -50,11 +49,10 @@ static unsigned long ip_compute_csum(void *addr, unsigned long length)
 			sum -= 0xFFFF;
 	}
 	return (~sum) & 0xFFFF;
-
 }
 
 #define for_each_lbrec(head, rec) \
-	for(rec = (struct lb_record *)(((char *)head) + sizeof(*head)); \
+	for (rec = (struct lb_record *)(((char *)head) + sizeof(*head)); \
 		(((char *)rec) < (((char *)head) + sizeof(*head) + head->table_bytes))  && \
 		(rec->size >= 1) && \
 		((((char *)rec) + rec->size) <= (((char *)head) + sizeof(*head) + head->table_bytes)); \
@@ -123,13 +121,13 @@ int query_linuxbios(void)
 		return 0;
 	}
 
-	 /* coreboot also can forward the table to the high tables area. */
-	 rec = (struct lb_record *)(((char *)head) + sizeof(*head));
-	 if (rec->tag == LB_TAG_FORWARD) {
-		 forward = (struct lb_forward *)rec;
-		 head = (struct lb_header *)(unsigned long)(forward->forward);
-		 if (!head) { return 0;	}
-	 }
+	/* coreboot also can forward the table to the high tables area. */
+	rec = (struct lb_record *)(((char *)head) + sizeof(*head));
+	if (rec->tag == LB_TAG_FORWARD) {
+		forward = (struct lb_forward *)rec;
+		head = (struct lb_header *)(unsigned long)(forward->forward);
+		if (!head) { return 0;	}
+	}
 
 	mem = 0;
 	for_each_lbrec(head, rec) {
@@ -162,4 +160,3 @@ int query_linuxbios(void)
 	}
 	return 1;
 }
-

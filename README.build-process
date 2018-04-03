@@ -9,7 +9,7 @@ comprehsibility of the build process.  Simplicity of the toolset. And the
 ability to build images bootable by both the legacy x86 bootloader,
 and images bootable by bootloaders that directly load static ELF images. 
 
-With the ability to proecess relocation records, memtest.bin has been
+With the ability to process relocation records, memtest.bin has been
 reduced in size from 84480 bytes to 49308 bytes.  And now only requires one copy
 of memtest86+.  A reduction in size of 35K.  And the build process can now
 ignore the size of memtest86+.
@@ -36,4 +36,3 @@ relocation records for pointers so they will not change when memtest86+ is
 relocated, which might lead to nasty surpises.
 
 Eric Biederman <ebiederman@lnxi.com>
-

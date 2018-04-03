@@ -294,9 +294,7 @@ static int sanitize_e820_map(struct e820entry *orig_map, struct e820entry *new_b
 			if ((change_point[i]->addr < change_point[i-1]->addr) ||
 				((change_point[i]->addr == change_point[i-1]->addr) &&
 				 (change_point[i]->addr == change_point[i]->pbios->addr) &&
-				 (change_point[i-1]->addr != change_point[i-1]->pbios->addr))
-			   )
-			{
+				 (change_point[i-1]->addr != change_point[i-1]->pbios->addr)) ) {
 				change_tmp = change_point[i];
 				change_point[i] = change_point[i-1];
 				change_point[i-1] = change_tmp;
@@ -311,19 +309,14 @@ static int sanitize_e820_map(struct e820entry *orig_map, struct e820entry *new_b
 	last_type = 0;		 /* start with undefined memory type */
 	last_addr = 0;		 /* start with 0 as last starting address */
 	/* loop through change-points, determining affect on the new bios map */
-	for (chgidx=0; chgidx < 2*old_nr; chgidx++)
-	{
+	for (chgidx=0; chgidx < 2*old_nr; chgidx++) {
 		/* keep track of all overlapping bios entries */
-		if (change_point[chgidx]->addr == change_point[chgidx]->pbios->addr)
-		{
+		if (change_point[chgidx]->addr == change_point[chgidx]->pbios->addr) {
 			/* add map entry to overlap list (> 1 entry implies an overlap) */
 			overlap_list[overlap_entries++]=change_point[chgidx]->pbios;
-		}
-		else
-		{
+		} else {
 			/* remove entry from list (order independent, so swap with last) */
-			for (i=0; i<overlap_entries; i++)
-			{
+			for (i=0; i<overlap_entries; i++) {
 				if (overlap_list[i] == change_point[chgidx]->pbios)
 					overlap_list[i] = overlap_list[overlap_entries-1];
 			}
@@ -336,8 +329,8 @@ static int sanitize_e820_map(struct e820entry *orig_map, struct e820entry *new_b
 			if (overlap_list[i]->type > current_type)
 				current_type = overlap_list[i]->type;
 		/* continue building up new bios map based on this information */
-		if (current_type != last_type)	{
-			if (last_type != 0)	 {
+		if (current_type != last_type) {
+			if (last_type != 0) {
 				new_bios[new_bios_entry].size =
 					change_point[chgidx]->addr - last_addr;
 				/* move forward only if the new size was non-zero */
@@ -345,7 +338,7 @@ static int sanitize_e820_map(struct e820entry *orig_map, struct e820entry *new_b
 					if (++new_bios_entry >= E820MAX)
 						break; 	/* no more space left for new bios entries */
 			}
-			if (current_type != 0)	{
+			if (current_type != 0) {
 				new_bios[new_bios_entry].addr = change_point[chgidx]->addr;
 				new_bios[new_bios_entry].type = current_type;
 				last_addr=change_point[chgidx]->addr;
@@ -379,7 +372,6 @@ static void memsize_probe(void)
 	set_cache(1);
 
 	/* Find all segments of RAM */
-
 	i = 0;
 	v->pmap[i].start = ((ulong)&_end + (1 << 12) - 1) >> 12;
 	p = (ulong *)(v->pmap[i].start << 12);
@@ -479,6 +471,5 @@ static int check_ram(void)
                 /* RAM at this address */
                 return 1;
         }
-
         return 0;
 }

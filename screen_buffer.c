@@ -37,19 +37,14 @@ char *padding = "123456789012345678901234567890123456789012345678901234567890123
 
 #endif /* SCRN_DEBUG */
 
-char
-get_scrn_buf(const int y,
-             const int x)
+char get_scrn_buf(const int y, const int x)
 {
 	CHECK_BOUNDS(y,x);
 	return screen_buf[y][x];
 }
 
 
-void
-set_scrn_buf(const int y,
-             const int x,
-             const char val)
+void set_scrn_buf(const int y, const int x, const char val)
 {
 	CHECK_BOUNDS(y,x);
 	screen_buf[y][x] = val;

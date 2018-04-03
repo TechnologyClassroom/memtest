@@ -160,4 +160,3 @@ static inline void serial_debug(int ch)
 }
 #endif
 #endif /* _LINUX_SERIAL_REG_H */
-

@@ -144,4 +144,3 @@ msg1:
 
 	/* Pad setup to the proper size */
 	.org	(SETUPSECS*512)
-

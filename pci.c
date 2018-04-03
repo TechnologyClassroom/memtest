@@ -36,11 +36,11 @@ int pci_conf_read(unsigned bus, unsigned dev, unsigned fn, unsigned reg, unsigne
 		return -1;
 
 	result = -1;
-	switch(pci_conf_type) {
+	switch (pci_conf_type) {
 	case PCI_CONF_TYPE_1:
-		if(reg < 256){
+		if (reg < 256){
 			outl(PCI_CONF1_ADDRESS(bus, dev, fn, reg), 0xCF8);
-		}else{
+		} else {
 			outl(PCI_CONF3_ADDRESS(bus, dev, fn, reg), 0xCF8);
 		}
 		switch(len) {
@@ -53,7 +53,7 @@ int pci_conf_read(unsigned bus, unsigned dev, unsigned fn, unsigned reg, unsigne
 		outb(0xF0 | (fn << 1), 0xCF8);
 		outb(bus, 0xCFA);
 
-		switch(len) {
+		switch (len) {
 		case 1:  *value = inb(PCI_CONF2_ADDRESS(dev, reg)); result = 0; break;
 		case 2:  *value = inw(PCI_CONF2_ADDRESS(dev, reg)); result = 0; break;
 		case 4:  *value = inl(PCI_CONF2_ADDRESS(dev, reg)); result = 0; break;
@@ -72,10 +72,10 @@ int pci_conf_write(unsigned bus, unsigned dev, unsigned fn, unsigned reg, unsign
 		return -1;
 
 	result = -1;
-	switch(pci_conf_type) {
+	switch (pci_conf_type) {
 	case PCI_CONF_TYPE_1:
 		outl(PCI_CONF1_ADDRESS(bus, dev, fn, reg), 0xCF8);
-		switch(len) {
+		switch (len) {
 		case 1:  outb(value, 0xCFC + (reg & 3)); result = 0; break;
 		case 2:  outw(value, 0xCFC + (reg & 2)); result = 0; break;
 		case 4:  outl(value, 0xCFC); result = 0; break;
@@ -85,7 +85,7 @@ int pci_conf_write(unsigned bus, unsigned dev, unsigned fn, unsigned reg, unsign
 		outb(0xF0 | (fn << 1), 0xCF8);
 		outb(bus, 0xCFA);
 
-		switch(len) {
+		switch (len) {
 		case 1: outb(value, PCI_CONF2_ADDRESS(dev, reg)); result = 0; break;
 		case 2: outw(value, PCI_CONF2_ADDRESS(dev, reg)); result = 0; break;
 		case 4: outl(value, PCI_CONF2_ADDRESS(dev, reg)); result = 0; break;

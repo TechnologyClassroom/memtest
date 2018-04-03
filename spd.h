@@ -9,5 +9,3 @@ int get_ddr2_module_size(int rank_density_byte, int rank_num_byte);
 int get_ddr3_module_size(int sdram_capacity, int prim_bus_width, int sdram_width, int ranks);
 char* convert_hex_to_char(unsigned hex_org);
 #define LINE_SPD 16
-
-
