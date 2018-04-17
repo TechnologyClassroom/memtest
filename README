@@ -2,6 +2,48 @@ This is a slightly modified version of Memtest86+ that paints the bottom of
 the screen green after 2 successful passes. This way, you can scrape the
 console screen in order to determine if the your memory test is done.
 
+## Compiling
+
+1. Install Ubuntu 14.04 Server in a VM.
+2. Uncomment src repositories in /etc/apt/sources.list
+
+```
+sudo nano /etc/apt/sources.list
+```
+
+3. Update software sources.
+
+```
+sudo apt update
+```
+
+4. Install build dependencies.
+
+```
+sudo apt-get build-dep -y memtest86+
+sudo apt-get install -y fakeroot
+sudo apt-get install -y git
+```
+
+5. Clone this repo.
+
+```
+git clone http://github.com/TechnologyClassroom/memtest
+```
+
+6. Change directory.
+
+```
+cd memtest
+```
+
+7. Compile.
+
+```
+make
+sh makeiso.sh
+```
+
 
 Memtest86++ v4.21
 =================
