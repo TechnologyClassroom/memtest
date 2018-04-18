@@ -1,14 +1,27 @@
-This is a slightly modified version of Memtest86+ that paints the bottom of
-the screen green after 2 successful passes. This way, you can scrape the
-console screen in order to determine if the your memory test is done.
+# Memtest86+
+
+This is a slightly modified version of Memtest86+ 4.20.
+
+Changes in 4.21:
+- Black background (TechnologyClassroom)
+- Paints the bottom of the screen green after 2 successful passes. (scottjg)
+- Fixed bug in [Error Report Mode] menu (andrcmdr)
+- The name of SK Hynix Semiconductor is updated (hjPARK1121)
 
 ## Compiling
 
-1. Install Ubuntu 14.04 Server in a VM.
+1. Install Ubuntu 14.04 Server in a VM.  The toolchain since then does not work.
 2. Uncomment src repositories in /etc/apt/sources.list
 
 ```
-sudo nano /etc/apt/sources.list
+sudo sed -i 's/# deb-src/deb-src/g' /etc/apt/sources.list
+```
+
+Note: This command enables the ```partner``` repo which is not default.  You may
+wish to disable this repo with:
+
+```
+sudo sed -i '/partner/d' /etc/apt/sources.list
 ```
 
 3. Update software sources.
@@ -45,7 +58,7 @@ sh makeiso.sh
 ```
 
 
-Memtest86++ v4.21
+Memtest86++ v4.20
 =================
 
 Table of Contents

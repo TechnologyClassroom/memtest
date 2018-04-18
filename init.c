@@ -100,10 +100,10 @@ static void display_init(void) {
 	serial_echo_print("\x1B[0m");
 	serial_echo_print("\x1B[37m\x1B[44m");
 
-	/* Clear screen & set background to blue */
+	/* Clear screen & set background to black */
 	for (i=0, pp=(char *)(SCREEN_ADR); i<80*24; i++) {
 		*pp++ = ' ';
-		*pp++ = 0x17;
+		*pp++ = 0x07;
 	}
 
 	/* Make the name background red */

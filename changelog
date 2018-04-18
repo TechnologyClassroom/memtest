@@ -1,6 +1,7 @@
 Memtest86+ V4.21 changelog
 --------------------------
 
+- Black background (TechnologyClassroom)
 - Paints the bottom of the screen green after 2 successful passes. (scottjg)
 - Fixed bug in [Error Report Mode] menu (andrcmdr)
 - The name of SK Hynix Semiconductor is updated (hjPARK1121)
